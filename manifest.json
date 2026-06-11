@@ -1,0 +1,20 @@
+{
+  "name": "Process & SOP Architect",
+  "short_name": "SOP Architect",
+  "description": "Document, map, and approve your team's standard operating procedures — Global 1080.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0C0634",
+  "theme_color": "#0C0634",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

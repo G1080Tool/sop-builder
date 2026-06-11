@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global 1080 · Process & SOP Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- PWA / installable app -->
+<meta name="description" content="Document, map, and approve your team's standard operating procedures — Global 1080.">
+<meta name="theme-color" content="#0C0634">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SOP Architect">
+<style>
+:root{
+  --navy:#0C0634;--navy-1:#130c40;--navy-2:#191152;--navy-3:#221863;
+  --line:rgba(244,244,244,.10);--line-2:rgba(244,244,244,.16);
+  --coral:#FF4948;--coral-2:#ff6b6a;--coral-soft:rgba(255,73,72,.14);--coral-line:rgba(255,73,72,.45);
+  --cream:#F4F4F4;--cream-dim:rgba(244,244,244,.62);--cream-faint:rgba(244,244,244,.40);
+  --paper:#FAFAFA;--ink:#161229;--ok:#37d399;--warn:#ffb454;
+  --serif:'Playfair Display',Georgia,'Times New Roman',serif;
+  --sans:'Hanken Grotesk',ui-sans-serif,system-ui,-apple-system,sans-serif;--r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--sans);color:var(--cream);background:var(--navy);
+  background-image:radial-gradient(1100px 700px at 82% -8%, rgba(255,73,72,.10), transparent 60%),radial-gradient(900px 600px at -5% 110%, rgba(34,24,99,.55), transparent 55%);
+  background-attachment:fixed;-webkit-font-smoothing:antialiased;line-height:1.5}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-thumb{background:rgba(244,244,244,.16);border-radius:20px;border:3px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb:hover{background:rgba(244,244,244,.28);background-clip:content-box}
+button{font-family:inherit;cursor:pointer;color:inherit}
+input,select,textarea{font-family:inherit}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:18px;padding:14px 26px;background:rgba(12,6,52,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.brand .mark{width:30px;height:48px;flex-shrink:0}
+.brand .divider{width:1px;height:42px;background:var(--cream);opacity:.55}
+.brand .word{font-family:var(--serif);line-height:1.02}
+.brand .word .l1{font-size:18px;font-weight:700;letter-spacing:.2px}
+.brand .word .l2{font-size:12.5px;font-weight:500;color:var(--cream-dim);letter-spacing:.3px}
+.tagline{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--coral);font-weight:600}
+nav.tabs{display:flex;gap:4px;margin-left:auto;background:rgba(244,244,244,.05);padding:5px;border-radius:12px;border:1px solid var(--line)}
+nav.tabs button{border:none;background:transparent;color:var(--cream-dim);padding:8px 14px;border-radius:8px;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;transition:.18s}
+nav.tabs button svg{width:15px;height:15px}
+nav.tabs button:hover{color:var(--cream)}
+nav.tabs button.active{background:var(--coral);color:#fff;box-shadow:0 6px 18px -8px var(--coral)}
+.langsel{display:flex;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:10px;padding:3px;flex-shrink:0}
+.langsel button{border:none;background:transparent;color:var(--cream-dim);padding:6px 11px;border-radius:7px;font-size:12px;font-weight:700;letter-spacing:.04em;transition:.15s}
+.langsel button:hover{color:var(--cream)}
+.langsel button.active{background:var(--coral);color:#fff}
+.bar-actions{display:flex;gap:8px;flex-shrink:0}
+.btn{border:1px solid var(--line-2);background:rgba(244,244,244,.04);color:var(--cream);padding:8px 14px;border-radius:9px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:.16s;white-space:nowrap}
+.btn svg{width:15px;height:15px}
+.btn:hover{background:rgba(244,244,244,.10)}
+.btn.primary{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn.primary:hover{background:var(--coral-2);box-shadow:0 8px 22px -10px var(--coral)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--cream-dim)}
+.btn.ghost:hover{color:var(--cream);background:rgba(244,244,244,.06)}
+.btn.sm{padding:6px 11px;font-size:12px}
+.btn.danger{border-color:rgba(255,73,72,.4);color:var(--coral-2)}
+.btn.danger:hover{background:var(--coral-soft)}
+.wrap{max-width:1340px;margin:0 auto;padding:30px 30px 80px}
+.view{display:none;animation:fade .4s ease}
+.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:26px;flex-wrap:wrap}
+.page-head h1{font-family:var(--serif);font-size:30px;font-weight:700;letter-spacing:.2px}
+.page-head p{color:var(--cream-dim);font-size:14px;margin-top:5px;max-width:580px}
+.card{background:linear-gradient(180deg,var(--navy-1),var(--navy));border:1px solid var(--line);border-radius:var(--r)}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.stat{padding:20px;position:relative;overflow:hidden}
+.stat .k{font-family:var(--serif);font-size:42px;font-weight:700;line-height:1}
+.stat .lbl{font-size:12.5px;color:var(--cream-dim);margin-top:8px;font-weight:500}
+.stat .ic{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--coral-soft)}
+.stat .ic svg{width:18px;height:18px;color:var(--coral)}
+.dash-2{display:grid;grid-template-columns:1.4fr 1fr;gap:20px}
+.panel{padding:22px}
+.panel h3{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:3px}
+.panel .sub{font-size:12.5px;color:var(--cream-dim);margin-bottom:18px}
+.readiness{display:flex;align-items:center;gap:24px;margin-bottom:8px}
+.ring{--p:0;width:120px;height:120px;border-radius:50%;flex-shrink:0;background:conic-gradient(var(--coral) calc(var(--p)*1%), rgba(244,244,244,.10) 0);display:grid;place-items:center;position:relative}
+.ring::before{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--navy)}
+.ring .v{position:relative;font-family:var(--serif);font-size:30px;font-weight:700}
+.ring .v small{font-size:14px;font-weight:600;color:var(--cream-dim)}
+.readiness .meta{flex:1}
+.readiness .meta .t{font-size:14px;font-weight:600;margin-bottom:10px}
+.bar{margin-bottom:13px}
+.bar .row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;gap:10px}
+.bar .row .dept-name{display:flex;align-items:center;gap:8px;font-weight:600}
+.bar .row .cnt{color:var(--cream-dim);text-align:right}
+.bar .track{height:8px;background:rgba(244,244,244,.08);border-radius:20px;overflow:hidden}
+.bar .fill{height:100%;border-radius:20px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.checks{display:flex;flex-direction:column;gap:10px}
+.check{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;border-radius:11px;background:rgba(244,244,244,.04);border:1px solid var(--line)}
+.check .ci{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:grid;place-items:center}
+.check .ci svg{width:16px;height:16px}
+.check.good .ci{background:rgba(55,211,153,.14);color:var(--ok)}
+.check.warn .ci{background:rgba(255,180,84,.14);color:var(--warn)}
+.check.bad .ci{background:var(--coral-soft);color:var(--coral)}
+.check .ctext{flex:1}
+.check .ctext .h{font-size:13.5px;font-weight:600}
+.check .ctext .d{font-size:12px;color:var(--cream-dim);margin-top:2px}
+.check .num{font-family:var(--serif);font-size:20px;font-weight:700;align-self:center}
+.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.search{flex:1;min-width:200px;position:relative}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--cream-faint)}
+.search input{width:100%;padding:11px 14px 11px 38px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:10px;color:var(--cream);font-size:14px}
+.search input:focus{outline:none;border-color:var(--coral-line);background:rgba(244,244,244,.07)}
+.sel{padding:10px 14px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:10px;color:var(--cream);font-size:13.5px;font-weight:500}
+.sel:focus{outline:none;border-color:var(--coral-line)}
+.proc-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.proc-table thead th{text-align:left;padding:13px 16px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-faint);font-weight:700;border-bottom:1px solid var(--line-2)}
+.proc-table tbody tr{border-bottom:1px solid var(--line);transition:.14s}
+.proc-table tbody tr:hover{background:rgba(244,244,244,.04)}
+.proc-table td{padding:14px 16px;vertical-align:middle}
+.proc-table .pname{font-weight:700;font-size:14.5px;cursor:pointer}
+.proc-table .pname:hover{color:var(--coral-2)}
+.proc-table .pmeta{font-size:12px;color:var(--cream-faint);margin-top:2px}
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.tag.dept{background:rgba(244,244,244,.06);border:1px solid var(--line)}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px}
+.status::before{content:"";width:7px;height:7px;border-radius:50%}
+.status.draft{background:rgba(244,244,244,.07);color:var(--cream-dim)}
+.status.draft::before{background:var(--cream-faint)}
+.status.review{background:rgba(255,180,84,.13);color:var(--warn)}
+.status.review::before{background:var(--warn)}
+.status.approved{background:rgba(55,211,153,.13);color:var(--ok)}
+.status.approved::before{background:var(--ok)}
+.status.submitted{background:rgba(91,141,239,.15);color:#8fb2f5}
+.status.submitted::before{background:#5B8DEF}
+.status.dir_approved{background:rgba(199,125,255,.15);color:#d4a6ff}
+.status.dir_approved::before{background:#C77DFF}
+.owner-cell{display:flex;align-items:center;gap:10px}
+.avatar{width:30px;height:30px;border-radius:8px;background:var(--coral-soft);color:var(--coral-2);display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0}
+.avatar.none{background:rgba(244,244,244,.06);color:var(--cream-faint)}
+.row-act{display:flex;gap:4px;justify-content:flex-end}
+.icon-btn{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:transparent;display:grid;place-items:center;transition:.14s}
+.icon-btn svg{width:15px;height:15px;color:var(--cream-dim)}
+.icon-btn:hover{background:rgba(244,244,244,.07)}
+.icon-btn:hover svg{color:var(--cream)}
+.icon-btn.del:hover{border-color:var(--coral-line)}
+.icon-btn.del:hover svg{color:var(--coral)}
+.empty{text-align:center;padding:60px 20px;color:var(--cream-dim)}
+.empty svg{width:42px;height:42px;color:var(--cream-faint);margin-bottom:14px}
+.map-legend{display:flex;gap:20px;align-items:center;margin-bottom:16px;flex-wrap:wrap;font-size:12.5px;color:var(--cream-dim)}
+.map-legend .li{display:flex;align-items:center;gap:8px}
+.legend-line{width:26px;height:2px;border-radius:2px}
+.map-scroll{overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,rgba(19,12,64,.5),rgba(12,6,52,.5)),radial-gradient(circle at 1px 1px, rgba(244,244,244,.05) 1px, transparent 0);background-size:auto,26px 26px;position:relative}
+.lanes{display:flex;gap:0;padding:18px;min-width:min-content;position:relative;z-index:2}
+.lane{flex:0 0 250px;padding:0 12px;border-right:1px dashed var(--line)}
+.lane:last-child{border-right:none}
+.lane-head{display:flex;align-items:center;gap:9px;padding:8px 4px 14px;font-size:13px;font-weight:700;position:sticky;top:0}
+.lane-head .lcount{margin-left:auto;font-size:11px;color:var(--cream-faint);font-weight:600}
+.node{background:linear-gradient(180deg,var(--navy-2),var(--navy-1));border:1px solid var(--line-2);border-radius:11px;padding:13px 14px;margin-bottom:16px;cursor:pointer;transition:.16s;position:relative}
+.node:hover{border-color:var(--coral-line);transform:translateY(-2px);box-shadow:0 12px 28px -16px rgba(0,0,0,.8)}
+.node.dim{opacity:.28}
+.node.hl{border-color:var(--coral);box-shadow:0 0 0 1px var(--coral),0 14px 30px -14px var(--coral)}
+.node .nname{font-size:13.5px;font-weight:700;line-height:1.25;margin-bottom:7px}
+.node .nfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px}
+.node .nowner{font-size:11px;color:var(--cream-dim);display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.node .ndot{position:absolute;top:14px;right:13px;width:8px;height:8px;border-radius:50%}
+svg.links{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible}
+.lib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.lib-card{padding:18px;cursor:pointer;transition:.16s;display:flex;flex-direction:column;gap:12px;min-height:150px}
+.lib-card:hover{border-color:var(--coral-line);transform:translateY(-3px)}
+.lib-card .lc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.lib-card .lc-name{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.2}
+.lib-card .lc-purpose{font-size:12.5px;color:var(--cream-dim);flex:1;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lib-card .lc-foot{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--cream-faint);border-top:1px solid var(--line);padding-top:11px}
+.overlay{position:fixed;inset:0;background:rgba(5,2,24,.72);backdrop-filter:blur(4px);z-index:90;opacity:0;pointer-events:none;transition:.25s}
+.overlay.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(640px,100%);background:var(--navy);border-left:1px solid var(--line-2);z-index:100;transform:translateX(100%);transition:transform .32s cubic-bezier(.3,.7,.2,1);display:flex;flex-direction:column;box-shadow:-30px 0 60px -30px rgba(0,0,0,.8)}
+.drawer.show{transform:none}
+.drawer-head{padding:20px 26px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:14px;flex-shrink:0}
+.drawer-head .dh-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.drawer-head h2{font-family:var(--serif);font-size:22px;font-weight:600;margin-top:3px}
+.drawer-body{padding:24px 26px;overflow-y:auto;flex:1}
+.drawer-foot{padding:16px 26px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0;background:var(--navy-1)}
+.fgroup{margin-bottom:20px}
+.fgroup>label{display:block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:8px}
+.fgroup .hint{font-size:11.5px;color:var(--cream-faint);font-weight:400;text-transform:none;letter-spacing:0;margin-top:-4px;margin-bottom:8px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+input.fi,select.fi,textarea.fi{width:100%;padding:11px 13px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:9px;color:var(--cream);font-size:14px;transition:.15s}
+input.fi:focus,select.fi:focus,textarea.fi:focus{outline:none;border-color:var(--coral-line);background:rgba(244,244,244,.07)}
+textarea.fi{resize:vertical;min-height:62px;line-height:1.5}
+.section-divider{display:flex;align-items:center;gap:12px;margin:28px 0 18px}
+.section-divider .sd-line{flex:1;height:1px;background:var(--line)}
+.section-divider .sd-t{font-family:var(--serif);font-size:15px;font-weight:600;color:var(--cream)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:9px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 6px 5px 12px;background:var(--coral-soft);border:1px solid var(--coral-line);border-radius:20px;font-size:12.5px;font-weight:600;color:var(--cream)}
+.chip button{background:none;border:none;color:var(--coral-2);display:grid;place-items:center;width:18px;height:18px;border-radius:50%}
+.chip button:hover{background:rgba(255,73,72,.2)}
+.chip button svg{width:12px;height:12px}
+.chip-input{display:flex;gap:8px}
+.chip-input input{flex:1}
+.step{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;background:rgba(244,244,244,.03);border:1px solid var(--line);border-radius:10px;padding:11px}
+.step .snum{width:24px;height:24px;border-radius:7px;background:var(--coral);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;flex-shrink:0;margin-top:3px}
+.step .sfields{flex:1;display:flex;flex-direction:column;gap:8px}
+.step .srow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.step .sctrl{display:flex;flex-direction:column;gap:4px}
+.step .sctrl button{width:24px;height:22px;border-radius:6px;border:1px solid var(--line);background:transparent;display:grid;place-items:center;color:var(--cream-dim)}
+.step .sctrl button:hover{background:rgba(244,244,244,.07);color:var(--cream)}
+.step .sctrl button svg{width:13px;height:13px}
+.mini-i{padding:8px 11px;font-size:13px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:8px;color:var(--cream);width:100%}
+.mini-i:focus{outline:none;border-color:var(--coral-line)}
+.dep-list{max-height:200px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;padding:6px}
+.dep-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:.12s}
+.dep-item:hover{background:rgba(244,244,244,.05)}
+.dep-item input{width:16px;height:16px;accent-color:var(--coral)}
+.dep-item .di-name{font-size:13px;font-weight:600}
+.dep-item .di-dept{font-size:11px;color:var(--cream-faint)}
+.doc-overlay{position:fixed;inset:0;background:rgba(5,2,24,.8);backdrop-filter:blur(4px);z-index:110;display:none;overflow-y:auto;padding:30px 20px}
+.doc-overlay.show{display:block}
+.doc-toolbar{max-width:820px;margin:0 auto 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+#sopDoc{max-width:820px;margin:0 auto;background:var(--paper);color:var(--ink);border-radius:6px;padding:0;box-shadow:0 30px 80px -30px rgba(0,0,0,.7)}
+.doc-header{background:var(--navy);color:var(--cream);padding:34px 44px;border-radius:6px 6px 0 0;display:flex;align-items:center;gap:18px}
+.doc-header .divider{width:1px;height:46px;background:var(--cream);opacity:.5}
+.doc-header .dw .l1{font-family:var(--serif);font-size:20px;font-weight:700}
+.doc-header .dw .l2{font-size:12px;color:var(--cream-dim)}
+.doc-header .doctype{margin-left:auto;text-align:right}
+.doc-header .doctype .dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--coral-2);font-weight:700}
+.doc-header .doctype .dn{font-family:var(--serif);font-size:15px}
+.doc-body{padding:38px 44px 48px}
+.doc-title{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1.1;color:var(--ink)}
+.doc-meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e3e3e8;border:1px solid #e3e3e8;border-radius:8px;overflow:hidden;margin:24px 0 30px}
+.doc-meta-grid .mc{background:var(--paper);padding:13px 15px}
+.doc-meta-grid .mc .ml{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8a8a96;font-weight:700}
+.doc-meta-grid .mc .mv{font-size:14px;font-weight:600;margin-top:4px;color:var(--ink)}
+.doc-section{margin-bottom:26px}
+.doc-section h4{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--ink);padding-bottom:7px;border-bottom:2px solid var(--coral);display:inline-block;margin-bottom:13px}
+.doc-section p{font-size:14px;color:#3a3744;line-height:1.6}
+.doc-2col{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.doc-list{list-style:none}
+.doc-list li{font-size:13.5px;color:#3a3744;padding:6px 0 6px 22px;position:relative;border-bottom:1px solid #eee}
+.doc-list li::before{content:"";position:absolute;left:3px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--coral)}
+.doc-steps{counter-reset:s}
+.doc-step{display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #eee}
+.doc-step .dsn{counter-increment:s;flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+.doc-step .dsn::before{content:counter(s)}
+.doc-step .dsc{flex:1}
+.doc-step .dst{font-size:14px;color:var(--ink);font-weight:500;line-height:1.5}
+.doc-step .dsm{font-size:11.5px;color:#8a8a96;margin-top:5px;display:flex;gap:16px;flex-wrap:wrap}
+.doc-step .dsm b{color:#5a5766;font-weight:700}
+.flow-rel{display:flex;flex-direction:column;gap:8px}
+.flow-rel .fr{display:flex;align-items:center;gap:10px;font-size:13px;padding:9px 12px;background:#f4f4f6;border-radius:8px}
+.flow-rel .fr svg{width:16px;height:16px;flex-shrink:0;color:var(--coral)}
+.flow-rel .fr b{color:var(--ink)}
+.flow-rel .fr .fd{color:#8a8a96;font-size:11.5px;margin-left:auto}
+.doc-footer{padding:18px 44px;border-top:1px solid #eee;display:flex;justify-content:space-between;font-size:11px;color:#9a9aa4;gap:12px;flex-wrap:wrap}
+.doc-empty-note{font-size:13px;color:#9a9aa4;font-style:italic}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-3);border:1px solid var(--coral-line);color:var(--cream);padding:12px 20px;border-radius:11px;font-size:13.5px;font-weight:600;z-index:200;opacity:0;transition:.3s;box-shadow:0 16px 40px -16px rgba(0,0,0,.8);display:flex;align-items:center;gap:10px}
+.toast svg{width:17px;height:17px;color:var(--coral)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr)}.dash-2{grid-template-columns:1fr}.f2,.doc-2col,.doc-meta-grid{grid-template-columns:1fr}.doc-meta-grid{grid-template-columns:1fr 1fr}.tagline{display:none}nav.tabs button span{display:none}}
+@media print{
+  body *{visibility:hidden}
+  .doc-overlay,.doc-overlay *{visibility:visible}
+  .doc-overlay{position:absolute;inset:0;background:#fff;padding:0;display:block}
+  .doc-toolbar{display:none}
+  #sopDoc{box-shadow:none;max-width:100%;border-radius:0}
+  .doc-header{border-radius:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .doc-step .dsn,.doc-list li::before,.doc-section h4,.doc-meta-grid,.sop-page{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sop-page{break-before:page;page-break-before:always}
+  .doc-step,.doc-meta-grid,.flow-rel .fr,.doc-list li{break-inside:avoid;page-break-inside:avoid}
+  .doc-section h4{break-after:avoid;page-break-after:avoid}
+}
+.sop-page{border-top:8px solid var(--coral)}
+/* external supplier nodes + lane */
+.lane.ext{flex:0 0 232px;background:rgba(255,180,84,.04)}
+.lane.ext .lane-head{color:var(--warn)}
+.node.ext{background:linear-gradient(180deg,rgba(255,180,84,.10),rgba(19,12,64,.6));border:1.5px dashed rgba(255,180,84,.55)}
+.node.ext:hover{border-color:var(--warn);box-shadow:0 12px 28px -16px rgba(0,0,0,.8)}
+.node.ext.hl{border-style:solid;border-color:var(--warn);box-shadow:0 0 0 1px var(--warn),0 14px 30px -14px var(--warn)}
+.node.ext .ndot{background:var(--warn)!important}
+.node .ntype{font-size:10.5px;color:var(--cream-faint);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-top:6px}
+.ext-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.1em;color:var(--warn);border:1px solid rgba(255,180,84,.5);border-radius:5px;padding:1px 5px;margin-bottom:6px}
+.mgr-overlay{position:fixed;inset:0;background:rgba(5,2,24,.78);backdrop-filter:blur(5px);z-index:120;display:none;align-items:flex-start;justify-content:center;padding:40px 18px;overflow-y:auto}
+.mgr-overlay.show{display:flex}
+.mgr-box{width:min(620px,100%);background:var(--navy-1);border:1px solid var(--line-2);border-radius:16px;box-shadow:0 40px 90px -40px rgba(0,0,0,.85);overflow:hidden}
+.mgr-head{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px 24px;border-bottom:1px solid var(--line)}
+.mgr-head .mh-eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.mgr-head h2{font-family:var(--serif);font-size:21px;font-weight:600;margin-top:3px}
+.mgr-body{padding:18px 24px;max-height:62vh;overflow-y:auto}
+.mgr-foot{padding:14px 24px;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px;background:var(--navy)}
+.mgr-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:11px;margin-bottom:10px;background:rgba(244,244,244,.03)}
+.mgr-row input.mr-name{flex:1;min-width:60px;padding:9px 11px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:8px;color:var(--cream);font-size:14px;font-weight:600}
+.mgr-row input.mr-type{flex:1;min-width:60px;padding:9px 11px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:8px;color:var(--cream);font-size:13px}
+.mgr-row input:focus{outline:none;border-color:var(--coral-line)}
+.swatch{width:34px;height:34px;border-radius:8px;border:2px solid var(--line-2);cursor:pointer;flex-shrink:0;padding:0;overflow:hidden}
+.mr-count{font-size:11px;color:var(--cream-faint);white-space:nowrap}
+.mgr-add{display:flex;gap:9px;margin-top:6px}
+.mgr-add input{flex:1;padding:10px 12px;background:rgba(244,244,244,.05);border:1px dashed var(--line-2);border-radius:9px;color:var(--cream);font-size:14px}
+.mgr-add input:focus{outline:none;border-color:var(--coral-line)}
+.mgr-empty{font-size:13px;color:var(--cream-faint);padding:8px 2px 14px}
+/* supplier links editor */
+.sup-link{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:rgba(255,180,84,.05)}
+.sup-link .sl-name{flex:1;font-size:13.5px;font-weight:600}
+.sup-link select{padding:6px 8px;background:rgba(244,244,244,.06);border:1px solid var(--line);border-radius:7px;color:var(--cream);font-size:12px}
+.sup-link select:focus{outline:none;border-color:var(--coral-line)}
+.sup-add{display:flex;gap:8px;align-items:center}
+.sup-add select{flex:1;padding:9px 11px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:8px;color:var(--cream);font-size:13.5px}
+.flow-rel .fr.ext svg{color:var(--warn)}
+.flow-rel .fr.ext{background:rgba(255,180,84,.10)}
+/* fix native dropdown contrast (was light-on-light when opened) */
+select option{background-color:#16114a;color:#F4F4F4}
+select optgroup{background-color:#16114a;color:#F4F4F4}
+/* current user badge */
+.userchip{display:flex;align-items:center;gap:9px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:10px;padding:5px 6px 5px 11px;flex-shrink:0}
+.userchip .ua{width:28px;height:28px;border-radius:7px;background:var(--coral);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.userchip .un{font-size:12.5px;font-weight:700;line-height:1.1}
+.userchip .ur{font-size:10.5px;color:var(--cream-dim);text-transform:uppercase;letter-spacing:.05em}
+.userchip .uout{width:26px;height:26px;border-radius:7px;border:1px solid var(--line);background:transparent;display:grid;place-items:center}
+.userchip .uout:hover{background:rgba(255,73,72,.12)}
+.userchip .uout svg{width:13px;height:13px;color:var(--cream-dim)}
+/* login overlay */
+.login-overlay{position:fixed;inset:0;z-index:200;background:var(--navy);background-image:radial-gradient(1000px 700px at 80% -10%,rgba(255,73,72,.16),transparent 60%),radial-gradient(800px 600px at -8% 110%,rgba(34,24,99,.7),transparent 55%);display:none;align-items:center;justify-content:center;padding:24px}
+.login-overlay.show{display:flex}
+.login-box{width:min(420px,100%);background:linear-gradient(180deg,var(--navy-1),var(--navy));border:1px solid var(--line-2);border-radius:18px;padding:34px 32px;box-shadow:0 40px 90px -40px rgba(0,0,0,.85)}
+.login-box .lb-brand{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.login-box .lb-brand .divider{width:1px;height:40px;background:var(--cream);opacity:.5}
+.login-box .lb-brand .l1{font-family:var(--serif);font-size:18px;font-weight:700}
+.login-box .lb-brand .l2{font-size:11.5px;color:var(--cream-dim)}
+.login-box h2{font-family:var(--serif);font-size:23px;font-weight:600;margin:18px 0 4px}
+.login-box .lsub{font-size:13px;color:var(--cream-dim);margin-bottom:22px}
+.login-box label{display:block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--cream-dim);margin:0 0 7px}
+.login-box select,.login-box input{width:100%;padding:12px 13px;background:rgba(244,244,244,.05);border:1px solid var(--line);border-radius:10px;color:var(--cream);font-size:14.5px;margin-bottom:16px}
+.login-box select:focus,.login-box input:focus{outline:none;border-color:var(--coral-line)}
+.login-box .lbtn{width:100%;padding:13px;background:var(--coral);border:none;border-radius:10px;color:#fff;font-size:14.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.login-box .lbtn:hover{background:var(--coral-2)}
+.login-box .lerr{font-size:12.5px;color:var(--coral-2);margin:-8px 0 14px;min-height:16px}
+.login-box .lhint{font-size:11.5px;color:var(--cream-faint);margin-top:16px;text-align:center;line-height:1.5}
+/* approval section in editor */
+.appr-stage{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.appr-flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.appr-step{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--cream-faint);padding:6px 10px;border-radius:8px;border:1px solid var(--line)}
+.appr-step.done{color:var(--ok);border-color:rgba(55,211,153,.4);background:rgba(55,211,153,.08)}
+.appr-step.current{color:var(--coral-2);border-color:var(--coral-line);background:var(--coral-soft)}
+.appr-step .as-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+.appr-arrow{color:var(--cream-faint);font-size:12px}
+.appr-stamp{font-size:12px;color:var(--cream-dim);padding:8px 12px;background:rgba(244,244,244,.04);border:1px solid var(--line);border-radius:9px;margin-bottom:8px;display:flex;gap:8px;align-items:center}
+.appr-stamp svg{width:14px;height:14px;color:var(--ok);flex-shrink:0}
+.appr-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:8px}
+.stage-badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;padding:7px 13px;border-radius:9px}
+/* history */
+.hist{margin-top:6px;border:1px solid var(--line);border-radius:10px;max-height:150px;overflow-y:auto;background:rgba(244,244,244,.03)}
+.hist-row{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border-bottom:1px solid var(--line);font-size:12px}
+.hist-row:last-child{border-bottom:none}
+.hist-row .hr-act{font-weight:700;color:var(--cream)}
+.hist-row .hr-by{color:var(--cream-dim)}
+.hist-row .hr-at{margin-left:auto;color:var(--cream-faint);font-size:11px;white-space:nowrap}
+.lastedit{font-size:11.5px;color:var(--cream-faint);margin-top:3px}
+/* SOP signature block */
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px}
+.sig-cell{border-top:2px solid var(--ink);padding-top:8px}
+.sig-cell .sig-role{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8a8a96;font-weight:700}
+.sig-cell .sig-name{font-size:14px;font-weight:600;color:var(--ink);margin-top:4px;min-height:18px}
+.sig-cell .sig-date{font-size:11.5px;color:#8a8a96;margin-top:2px}
+.sig-pending{font-style:italic;color:#b3b3bd}
+.role-pill{font-size:9px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:5px;background:rgba(244,244,244,.08);color:var(--cream-dim);text-transform:uppercase}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="9" cy="6" r="6" fill="#FF4948"/><circle cx="21" cy="16.5" r="6" fill="#FF4948"/><circle cx="11" cy="27" r="6" fill="#FF4948"/><circle cx="8" cy="38" r="6" fill="#FF4948"/><circle cx="19" cy="44" r="4" fill="#FF4948"/>
+      <path d="M11 9 L19 13 M19 21 L13 24 M11 31 L9 34 M9.5 42 L17 43.5" stroke="#FF4948" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>
+    <div class="divider"></div>
+    <div class="word"><div class="l1">Global 1080</div><div class="l2">Business Solutions</div></div>
+  </div>
+  <span class="tagline" data-i18n="tagline"></span>
+  <nav class="tabs" id="tabs">
+    <button data-tab="dashboard" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg><span data-i18n="tab_overview"></span></button>
+    <button data-tab="processes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.5"/><circle cx="3.5" cy="12" r="1.5"/><circle cx="3.5" cy="18" r="1.5"/></svg><span data-i18n="tab_processes"></span></button>
+    <button data-tab="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7 7l3.5 9M17 7l-3.5 9"/></svg><span data-i18n="tab_map"></span></button>
+    <button data-tab="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M14 4v5h5"/><line x1="8" y1="13" x2="15" y2="13"/><line x1="8" y1="16" x2="13" y2="16"/></svg><span data-i18n="tab_library"></span></button>
+  </nav>
+  <div class="langsel" id="langsel">
+    <button data-lang="en" class="active">EN</button>
+    <button data-lang="es">ES</button>
+    <button data-lang="pt">PT</button>
+  </div>
+  <div class="bar-actions">
+    <button class="btn ghost sm" id="csvBtn" data-i18n-title="export_csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M8 13h2m-1 0v4m4-4h2m-2 0v4"/></svg></button>
+    <button class="btn ghost sm" id="importBtn" data-i18n-title="import_title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/></svg></button>
+    <button class="btn ghost sm" id="exportBtn" data-i18n-title="export_title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21V9M7 14l5-5 5 5"/><path d="M5 3h14"/></svg></button>
+    <input type="file" id="fileInput" accept="application/json" style="display:none">
+  </div>
+  <div class="userchip" id="userChip" style="display:none">
+    <div class="ua" id="ucAvatar"></div>
+    <div><div class="un" id="ucName"></div><div class="ur" id="ucRole"></div></div>
+    <button class="uout" id="signOutBtn" title="Sign out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg></button>
+  </div>
+</header>
+<main class="wrap">
+  <section class="view active" id="view-dashboard">
+    <div class="page-head">
+      <div><span class="eyebrow" data-i18n="dash_eyebrow"></span><h1 data-i18n="dash_h1"></h1><p data-i18n="dash_p"></p></div>
+      <button class="btn primary" onclick="openEditor()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span data-i18n="new_process"></span></button>
+    </div>
+    <div class="stat-grid" id="statGrid"></div>
+    <div class="dash-2">
+      <div class="card panel">
+        <h3 data-i18n="health_title"></h3><div class="sub" data-i18n="health_sub"></div>
+        <div class="readiness">
+          <div class="ring" id="readyRing"><div class="v" id="readyVal">0<small>%</small></div></div>
+          <div class="meta"><div class="t" data-i18n="score_title"></div><div id="readyBreak" style="font-size:12.5px;color:var(--cream-dim);line-height:1.9"></div></div>
+        </div>
+        <div class="checks" id="checks" style="margin-top:20px"></div>
+      </div>
+      <div class="card panel"><h3 data-i18n="dept_title"></h3><div class="sub" data-i18n="dept_sub"></div><div id="deptBars"></div></div>
+    </div>
+  </section>
+  <section class="view" id="view-processes">
+    <div class="page-head">
+      <div><span class="eyebrow" data-i18n="proc_eyebrow"></span><h1 data-i18n="proc_h1"></h1><p data-i18n="proc_p"></p></div>
+      <button class="btn primary" onclick="openEditor()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span data-i18n="new_process"></span></button>
+    </div>
+    <div class="toolbar">
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg><input type="text" id="searchInput" data-i18n-ph="search_ph"></div>
+      <select class="sel" id="filterDept"><option value="" data-i18n="all_departments"></option></select>
+      <select class="sel" id="filterStatus"><option value="" data-i18n="all_statuses"></option><option value="draft" data-i18n="st_draft"></option><option value="submitted" data-i18n="st_submitted"></option><option value="dir_approved" data-i18n="st_dir_approved"></option><option value="approved" data-i18n="st_approved"></option></select>
+    </div>
+    <div class="card" style="overflow:hidden">
+      <table class="proc-table"><thead><tr><th data-i18n="th_process"></th><th data-i18n="th_department"></th><th data-i18n="th_owner"></th><th data-i18n="th_frequency"></th><th data-i18n="th_links"></th><th data-i18n="th_status"></th><th></th></tr></thead><tbody id="procBody"></tbody></table>
+    </div>
+  </section>
+  <section class="view" id="view-map">
+    <div class="page-head"><div><span class="eyebrow" data-i18n="map_eyebrow"></span><h1 data-i18n="map_h1"></h1><p data-i18n="map_p"></p></div></div>
+    <div class="map-legend">
+      <div class="li"><span class="legend-line" style="background:var(--coral)"></span><span data-i18n="map_cross"></span></div>
+      <div class="li"><span class="legend-line" style="background:rgba(244,244,244,.35)"></span><span data-i18n="map_within"></span></div>
+      <div class="li"><span class="legend-line" style="background:var(--warn);height:0;border-top:2px dashed var(--warn)"></span><span data-i18n="map_external"></span></div>
+      <div class="li" style="margin-left:auto;gap:8px">
+        <button class="btn ghost sm" id="mgrDeptBtn" data-i18n="manage_depts"></button>
+        <button class="btn ghost sm" id="mgrSupBtn" data-i18n="manage_suppliers"></button>
+        <button class="btn ghost sm" id="mgrUserBtn" data-i18n="manage_users"></button>
+        <button class="btn ghost sm" id="mapReset" data-i18n="map_reset"></button>
+      </div>
+    </div>
+    <div class="map-scroll" id="mapScroll"><svg class="links" id="mapLinks"></svg><div class="lanes" id="lanes"></div></div>
+  </section>
+  <section class="view" id="view-library">
+    <div class="page-head">
+      <div><span class="eyebrow" data-i18n="lib_eyebrow"></span><h1 data-i18n="lib_h1"></h1><p data-i18n="lib_p"></p></div>
+      <button class="btn" id="printAllBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6"/><rect x="6" y="13" width="12" height="8"/><path d="M6 17H3v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5h-3"/></svg><span data-i18n="open_manual"></span></button>
+    </div>
+    <div class="lib-grid" id="libGrid"></div>
+  </section>
+</main>
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head"><div><div class="dh-eyebrow" id="drawerEyebrow"></div><h2 id="drawerTitle"></h2></div>
+    <button class="icon-btn" onclick="closeEditor()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot"><button class="btn ghost" onclick="closeEditor()" data-i18n="cancel"></button>
+    <button class="btn primary" id="saveProc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg><span data-i18n="save_process"></span></button></div>
+</aside>
+<div class="doc-overlay" id="docOverlay">
+  <div class="doc-toolbar">
+    <button class="btn ghost" onclick="closeDoc()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span data-i18n="doc_back"></span></button>
+    <button class="btn primary" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6"/><rect x="6" y="13" width="12" height="8"/><path d="M6 17H3v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5h-3"/></svg><span data-i18n="doc_print"></span></button>
+  </div>
+  <div id="sopDoc"></div>
+</div>
+<div class="mgr-overlay" id="mgrOverlay">
+  <div class="mgr-box">
+    <div class="mgr-head"><div><div class="mh-eyebrow" id="mgrEyebrow"></div><h2 id="mgrTitle"></h2></div>
+      <button class="icon-btn" id="mgrClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div class="mgr-body" id="mgrBody"></div>
+    <div class="mgr-foot"><button class="btn primary" id="mgrDone"></button></div>
+  </div>
+</div>
+<div class="login-overlay" id="loginOverlay">
+  <div class="login-box">
+    <div class="lb-brand">
+      <svg width="24" height="38" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="6" r="6" fill="#FF4948"/><circle cx="21" cy="16.5" r="6" fill="#FF4948"/><circle cx="11" cy="27" r="6" fill="#FF4948"/><circle cx="8" cy="38" r="6" fill="#FF4948"/><circle cx="19" cy="44" r="4" fill="#FF4948"/><path d="M11 9 L19 13 M19 21 L13 24 M11 31 L9 34 M9.5 42 L17 43.5" stroke="#FF4948" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <div class="divider"></div><div><div class="l1">Global 1080</div><div class="l2">Business Solutions</div></div>
+    </div>
+    <h2 id="loginTitle"></h2>
+    <div class="lsub" id="loginSub"></div>
+    <div id="loginFields"></div>
+    <div class="lerr" id="loginErr"></div>
+    <button class="lbtn" id="loginBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5M15 12H3"/></svg><span id="loginBtnLabel"></span></button>
+    <div class="lhint" id="loginHint"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+/* ===== STORAGE ===== */
+const KEY='g1080:data:v2';
+const Store={
+  async get(){try{if(window.storage&&storage.get){const r=await storage.get(KEY);return r?JSON.parse(r.value):null;}}catch(e){}try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):null;}catch(e){}return window.__mem||null;},
+  async set(d){const s=JSON.stringify(d);try{if(window.storage&&storage.set){await storage.set(KEY,s);return;}}catch(e){}try{localStorage.setItem(KEY,s);return;}catch(e){}window.__mem=d;}
+};
+/* ===== I18N ===== */
+const I18N={
+ en:{
+  tagline:'Process & SOP Architect',tab_overview:'Overview',tab_processes:'Processes',tab_map:'Process Map',tab_library:'SOP Library',
+  new_process:'New Process',import_title:'Import data',export_title:'Export / backup data (JSON)',export_csv:'Export results (CSV)',
+  dash_eyebrow:'Your Experienced Guide to Success',dash_h1:'SOP Readiness Overview',
+  dash_p:'Track how complete your operating procedures are, see where processes connect across departments, and find the gaps that still need documenting.',
+  stat_processes:'Documented Processes',stat_departments:'Departments Mapped',stat_handoffs:'Cross-Dept Handoffs',stat_approved:'Approved SOPs',
+  health_title:'Documentation Health',health_sub:'Gaps to close before your SOP set is complete & audit-ready.',
+  score_title:'SOP Completeness Score',ready_approved:'{0} of {1} processes fully approved',ready_steps:'{0} of {1} have documented steps',ready_owner:'{0} of {1} have an assigned owner',
+  dept_title:'Processes by Department',dept_sub:'Coverage across your organisation.',dept_bar_count:'{0} {1} · {2} approved',
+  proc_eyebrow:'Catalogue',proc_h1:'Process Register',proc_p:'The master list of every documented and in-progress process. Click a name to open its full SOP record.',
+  search_ph:'Search by process or owner…',all_departments:'All Departments',all_statuses:'All Statuses',st_draft:'Draft',st_review:'In Review',st_approved:'Approved',
+  th_process:'Process',th_department:'Department',th_owner:'Owner',th_frequency:'Frequency',th_links:'Links',th_status:'Status',
+  step_count:'{0} {1}',no_purpose_short:'No purpose yet',unassigned:'Unassigned',view_sop:'View SOP',edit:'Edit',delete:'Delete',
+  empty_filter:'No processes match. Adjust filters or add a new process.',del_confirm:'Delete "{0}"? This also removes it from any dependency links.',toast_deleted:'Process deleted',
+  map_eyebrow:'Relationships',map_h1:'Interdepartmental Process Map',map_p:'Each column is a department. Lines show dependencies — where one process hands off to another. Coral lines cross department boundaries. Click any node to trace its connections.',
+  map_cross:'Cross-department handoff',map_within:'Within-department flow',map_reset:'Reset highlight',no_processes:'No processes',
+  lib_eyebrow:'Deliverables',lib_h1:'SOP Library',lib_p:'Generate a clean, branded Standard Operating Procedure for any process — ready to print, save as PDF, or hand to your team.',
+  open_manual:'Open full SOP manual',lib_empty:'No processes documented yet. Add one to generate its SOP.',
+  ed_new_eyebrow:'New Process',ed_edit_eyebrow:'Edit Process',ed_new_title:'Document a Process',
+  lbl_name:'Process Name',ph_name:'e.g. Client Onboarding',lbl_department:'Department',lbl_frequency:'Frequency',
+  lbl_owner:'Process Owner',ph_owner:'Full name',lbl_role:'Owner Role / Title',ph_role:'e.g. Operations Manager',
+  lbl_backup:'Backup / Deputy',ph_optional:'Optional',lbl_status:'Status',
+  lbl_purpose:'Purpose',hint_purpose:'Why this process exists and what it achieves.',ph_purpose:'Describe the goal of this process…',
+  lbl_trigger:'Trigger',hint_trigger:'What event starts this process.',ph_trigger:'e.g. A signed contract is received…',
+  sec_steps:'Procedure Steps',add_step:'Add Step',ph_step:'Describe this step…',ph_step_role:'Responsible role',ph_step_system:'System / tool',
+  sec_io:'Inputs & Outputs',lbl_inputs:'Inputs Required',ph_inputs:'What goes in (e.g. signed contract)',lbl_outputs:'Outputs Produced',ph_outputs:'What comes out (e.g. project workspace)',
+  lbl_systems:'Systems & Tools',ph_systems:'e.g. CRM, accounting software',
+  sec_rel:'Relationships',lbl_depends:'Depends On (upstream processes)',hint_depends:'Which processes must happen before this one. Cross-department links appear in coral on the map.',depends_empty:'Add more processes to map dependencies.',
+  sec_gov:'Governance',lbl_kpis:'Key Metrics (KPIs)',ph_kpis:'How success is measured',lbl_risks:'Risks & Controls',ph_risks:'What can go wrong & safeguards',lbl_notes:'Notes',ph_notes:'Anything else worth recording…',
+  btn_add:'Add',cancel:'Cancel',save_process:'Save Process',toast_name:'Please give the process a name',toast_updated:'Process updated',toast_added:'Process added',
+  doc_back:'Back',doc_print:'Print / Save as PDF',doc_type_sop:'Standard Operating Procedure',doc_type_manual:'SOP Manual',
+  doc_owner:'Process Owner',doc_role:'Role',doc_freq:'Frequency',doc_status:'Status',
+  doc_purpose:'Purpose',doc_purpose_empty:'No purpose documented.',doc_trigger:'Trigger',doc_trigger_empty:'No trigger documented.',
+  doc_inputs:'Inputs Required',doc_inputs_empty:'No inputs listed.',doc_outputs:'Outputs Produced',doc_outputs_empty:'No outputs listed.',
+  doc_procedure:'Procedure',doc_proc_empty:'No procedure steps documented yet.',doc_responsible:'Responsible',doc_system:'System',
+  doc_systems:'Systems & Tools',doc_systems_empty:'No systems listed.',
+  doc_relationships:'Process Relationships',doc_receives:'Receives handoff from',doc_handsto:'Hands off to',doc_rel_empty:'No upstream or downstream dependencies mapped.',
+  doc_kpis:'Key Metrics (KPIs)',doc_kpis_empty:'No KPIs defined.',doc_risks:'Risks & Controls',doc_risks_empty:'No risks identified.',doc_notes:'Notes',
+  doc_footer_sop:'Global 1080 Business Solutions · Standard Operating Procedure',doc_footer_owner:'Owner: {0} · Last updated {1}',
+  doc_manual_name:'Complete Operating Manual',doc_manual_title:'Standard Operating Procedures',doc_manual_intro:'A complete reference of {0} documented processes across {1} departments. Generated {2}.',doc_contents:'Contents',
+  toast_no_compile:'No processes to compile',toast_no_csv:'No results to export',
+  toast_exported:'Data exported',toast_csv:'Results exported (CSV)',toast_imported:'Data imported',toast_invalid:'Invalid file',
+  chk_owner_bad:'{0} {1} missing an owner',chk_owner_bad_d:'Every SOP needs an accountable owner.',chk_owner_good:'All processes have an owner',chk_owner_good_d:'Accountability is clearly assigned.',
+  chk_steps_bad:'{0} {1} have no documented steps',chk_steps_bad_d:'Add step-by-step instructions to make them usable.',chk_steps_good:'Every process has steps',chk_steps_good_d:'Each SOP is actionable.',
+  chk_pending:'{0} {1} awaiting approval',chk_pending_d:'Move drafts through review to lock them in.',chk_pending_good:'All SOPs approved',chk_pending_good_d:'Your manual is sign-off ready.',
+  chk_orphan:'{0} {1} not linked to others',chk_orphan_d:'Map their upstream/downstream relationships.',chk_orphan_good:'All processes connected',chk_orphan_good_d:'Relationships are mapped.',
+  chk_emptydept:'{0} {1} with no processes',chk_emptydept_d:'Document at least one process per active department.',
+  proc_one:'process',proc_many:'processes',sop_one:'SOP',sop_many:'SOPs',dept_one:'department',dept_many:'departments',step_one:'step',step_many:'steps',approved_lc:'approved',
+  map_external:'External party',manage_depts:'Departments',manage_suppliers:'Suppliers',mgr_dept_eyebrow:'Manage',mgr_dept_title:'Departments',mgr_sup_eyebrow:'Manage',mgr_sup_title:'External Suppliers & Parties',done:'Done',
+  add_dept_ph:'New department name…',add_sup_ph:'New supplier / party name…',sup_type_ph:'Type (e.g. Vendor, Partner)',dept_blocked:'Move or delete its processes first.',confirm_del_dept:'Delete department "{0}"?',confirm_del_sup:'Delete "{0}"? It will be unlinked from all processes.',
+  toast_dept_added:'Department added',toast_dept_removed:'Department removed',toast_sup_added:'Supplier added',toast_sup_removed:'Supplier removed',mgr_sup_empty:'No external suppliers yet. Add your first below.',
+  lbl_suppliers:'External Suppliers / Parties',hint_suppliers:'Outside vendors, partners, or regulators this process works with. They appear as an external lane on the map.',suppliers_none:'No suppliers defined yet — add them under Suppliers on the map.',
+  dir_in:'Provides to this process',dir_out:'This process delivers to',dir_both:'Two-way',sup_pick:'Select supplier…',
+  doc_suppliers:'External Suppliers & Parties',doc_suppliers_empty:'No external parties linked.',doc_sup_in:'Receives from',doc_sup_out:'Delivers to',doc_sup_both:'Two-way with',ext_badge:'EXTERNAL',
+  role_staff:'Staff',role_director:'Department Director',role_gm:'General Manager',st_submitted:'Submitted',st_dir_approved:'Director approved',
+  login_title:'Sign in',login_sub:'Select your name to continue.',login_select_user:'Your name',login_pin:'PIN',login_signin:'Sign in',login_hint:'Manage who can sign in under Users on the Process Map tab.',login_err_pin:'Incorrect PIN.',login_err_select:'Please select your name.',
+  login_first_title:'Welcome',login_first_sub:'Set up the first account to get started.',login_name_ph:'Your full name',login_create:'Create account & sign in',login_err_name:'Please enter your name.',sign_out:'Sign out',
+  manage_users:'Users',mgr_user_eyebrow:'Manage',mgr_user_title:'Users & Roles',mgr_user_empty:'No users yet. Add the first below.',add_user_ph:'Full name…',user_role:'Role',pin_optional:'PIN (optional)',confirm_del_user:'Remove user "{0}"?',toast_user_added:'User added',toast_user_removed:'User removed',
+  lbl_stage:'Approval stage',appr_title:'Approval',submit_for_approval:'Submit for approval',approve_director:'Approve (Director)',approve_gm:'Approve & finalize (GM)',send_back:'Send back to draft',appr_director_label:'Department Director',appr_gm_label:'General Manager',appr_stamp:'{0} · {1}',appr_pending:'Pending',
+  toast_submitted:'Submitted for approval',toast_dir_approved:'Approved by Director',toast_gm_approved:'Final approval granted',toast_sent_back:'Sent back to draft',toast_no_perm:'Your role cannot do that',
+  hist_title:'Change history',act_created:'Created',act_edited:'Edited',act_submitted:'Submitted',act_dir_approved:'Director approved',act_gm_approved:'GM approved',act_sent_back:'Sent back',lastedit:'Last edited by {0} · {1}',
+  sig_title:'Approvals',sig_prepared:'Prepared by',sig_director:'Department Director',sig_gm:'General Manager',sig_pending:'Pending approval',
+  csv_h:['Process','Department','Owner','Role','Backup','Frequency','Status','Purpose','Trigger','Inputs','Outputs','Systems','Steps','Depends On','KPIs','Risks','Notes','External Suppliers'],
+  freq_continuous:'Continuous',freq_daily:'Daily',freq_weekly:'Weekly',freq_biweekly:'Bi-weekly',freq_monthly:'Monthly',freq_quarterly:'Quarterly',freq_annually:'Annually',freq_adhoc:'Ad-hoc / On-demand'
+ },
+ es:{
+  tagline:'Arquitecto de Procesos y POE',tab_overview:'Resumen',tab_processes:'Procesos',tab_map:'Mapa de Procesos',tab_library:'Biblioteca de POE',
+  new_process:'Nuevo Proceso',import_title:'Importar datos',export_title:'Exportar / respaldar datos (JSON)',export_csv:'Exportar resultados (CSV)',
+  dash_eyebrow:'Tu Guía Experimentada hacia el Éxito',dash_h1:'Estado de Preparación de POE',
+  dash_p:'Controla qué tan completos están tus procedimientos operativos, observa dónde se conectan los procesos entre departamentos y encuentra las brechas que aún faltan documentar.',
+  stat_processes:'Procesos Documentados',stat_departments:'Departamentos Mapeados',stat_handoffs:'Transferencias entre Áreas',stat_approved:'POE Aprobados',
+  health_title:'Salud de la Documentación',health_sub:'Brechas por cerrar antes de que tu conjunto de POE esté completo y listo para auditoría.',
+  score_title:'Puntuación de Completitud de POE',ready_approved:'{0} de {1} procesos totalmente aprobados',ready_steps:'{0} de {1} con pasos documentados',ready_owner:'{0} de {1} con responsable asignado',
+  dept_title:'Procesos por Departamento',dept_sub:'Cobertura en toda tu organización.',dept_bar_count:'{0} {1} · {2} aprobados',
+  proc_eyebrow:'Catálogo',proc_h1:'Registro de Procesos',proc_p:'La lista maestra de cada proceso documentado y en curso. Haz clic en un nombre para abrir su registro POE completo.',
+  search_ph:'Buscar por proceso o responsable…',all_departments:'Todos los Departamentos',all_statuses:'Todos los Estados',st_draft:'Borrador',st_review:'En Revisión',st_approved:'Aprobado',
+  th_process:'Proceso',th_department:'Departamento',th_owner:'Responsable',th_frequency:'Frecuencia',th_links:'Enlaces',th_status:'Estado',
+  step_count:'{0} {1}',no_purpose_short:'Sin propósito aún',unassigned:'Sin asignar',view_sop:'Ver POE',edit:'Editar',delete:'Eliminar',
+  empty_filter:'Ningún proceso coincide. Ajusta los filtros o agrega un nuevo proceso.',del_confirm:'¿Eliminar "{0}"? También se quitará de cualquier vínculo de dependencia.',toast_deleted:'Proceso eliminado',
+  map_eyebrow:'Relaciones',map_h1:'Mapa Interdepartamental de Procesos',map_p:'Cada columna es un departamento. Las líneas muestran dependencias — dónde un proceso transfiere a otro. Las líneas coral cruzan los límites de departamento. Haz clic en un nodo para rastrear sus conexiones.',
+  map_cross:'Transferencia entre departamentos',map_within:'Flujo dentro del departamento',map_reset:'Restablecer resaltado',no_processes:'Sin procesos',
+  lib_eyebrow:'Entregables',lib_h1:'Biblioteca de POE',lib_p:'Genera un Procedimiento Operativo Estándar limpio y con tu marca para cualquier proceso — listo para imprimir, guardar como PDF o entregar a tu equipo.',
+  open_manual:'Abrir manual completo de POE',lib_empty:'Aún no hay procesos documentados. Agrega uno para generar su POE.',
+  ed_new_eyebrow:'Nuevo Proceso',ed_edit_eyebrow:'Editar Proceso',ed_new_title:'Documentar un Proceso',
+  lbl_name:'Nombre del Proceso',ph_name:'ej. Incorporación de Cliente',lbl_department:'Departamento',lbl_frequency:'Frecuencia',
+  lbl_owner:'Responsable del Proceso',ph_owner:'Nombre completo',lbl_role:'Cargo / Título del Responsable',ph_role:'ej. Gerente de Operaciones',
+  lbl_backup:'Suplente / Reemplazo',ph_optional:'Opcional',lbl_status:'Estado',
+  lbl_purpose:'Propósito',hint_purpose:'Por qué existe este proceso y qué logra.',ph_purpose:'Describe el objetivo de este proceso…',
+  lbl_trigger:'Disparador',hint_trigger:'Qué evento inicia este proceso.',ph_trigger:'ej. Se recibe un contrato firmado…',
+  sec_steps:'Pasos del Procedimiento',add_step:'Agregar Paso',ph_step:'Describe este paso…',ph_step_role:'Rol responsable',ph_step_system:'Sistema / herramienta',
+  sec_io:'Entradas y Salidas',lbl_inputs:'Entradas Requeridas',ph_inputs:'Lo que entra (ej. contrato firmado)',lbl_outputs:'Salidas Producidas',ph_outputs:'Lo que sale (ej. espacio de proyecto)',
+  lbl_systems:'Sistemas y Herramientas',ph_systems:'ej. CRM, software contable',
+  sec_rel:'Relaciones',lbl_depends:'Depende De (procesos anteriores)',hint_depends:'Qué procesos deben ocurrir antes de este. Los vínculos entre departamentos aparecen en coral en el mapa.',depends_empty:'Agrega más procesos para mapear dependencias.',
+  sec_gov:'Gobernanza',lbl_kpis:'Métricas Clave (KPIs)',ph_kpis:'Cómo se mide el éxito',lbl_risks:'Riesgos y Controles',ph_risks:'Qué puede salir mal y salvaguardas',lbl_notes:'Notas',ph_notes:'Cualquier otra cosa que valga la pena registrar…',
+  btn_add:'Agregar',cancel:'Cancelar',save_process:'Guardar Proceso',toast_name:'Por favor da un nombre al proceso',toast_updated:'Proceso actualizado',toast_added:'Proceso agregado',
+  doc_back:'Volver',doc_print:'Imprimir / Guardar como PDF',doc_type_sop:'Procedimiento Operativo Estándar',doc_type_manual:'Manual de POE',
+  doc_owner:'Responsable del Proceso',doc_role:'Cargo',doc_freq:'Frecuencia',doc_status:'Estado',
+  doc_purpose:'Propósito',doc_purpose_empty:'Sin propósito documentado.',doc_trigger:'Disparador',doc_trigger_empty:'Sin disparador documentado.',
+  doc_inputs:'Entradas Requeridas',doc_inputs_empty:'Sin entradas listadas.',doc_outputs:'Salidas Producidas',doc_outputs_empty:'Sin salidas listadas.',
+  doc_procedure:'Procedimiento',doc_proc_empty:'Aún sin pasos de procedimiento documentados.',doc_responsible:'Responsable',doc_system:'Sistema',
+  doc_systems:'Sistemas y Herramientas',doc_systems_empty:'Sin sistemas listados.',
+  doc_relationships:'Relaciones del Proceso',doc_receives:'Recibe transferencia de',doc_handsto:'Transfiere a',doc_rel_empty:'Sin dependencias anteriores o posteriores mapeadas.',
+  doc_kpis:'Métricas Clave (KPIs)',doc_kpis_empty:'Sin KPIs definidos.',doc_risks:'Riesgos y Controles',doc_risks_empty:'Sin riesgos identificados.',doc_notes:'Notas',
+  doc_footer_sop:'Global 1080 Business Solutions · Procedimiento Operativo Estándar',doc_footer_owner:'Responsable: {0} · Última actualización {1}',
+  doc_manual_name:'Manual Operativo Completo',doc_manual_title:'Procedimientos Operativos Estándar',doc_manual_intro:'Una referencia completa de {0} procesos documentados en {1} departamentos. Generado el {2}.',doc_contents:'Contenido',
+  toast_no_compile:'No hay procesos para compilar',toast_no_csv:'No hay resultados para exportar',
+  toast_exported:'Datos exportados',toast_csv:'Resultados exportados (CSV)',toast_imported:'Datos importados',toast_invalid:'Archivo inválido',
+  chk_owner_bad:'{0} {1} sin responsable asignado',chk_owner_bad_d:'Cada POE necesita un responsable.',chk_owner_good:'Todos los procesos tienen responsable',chk_owner_good_d:'La responsabilidad está claramente asignada.',
+  chk_steps_bad:'{0} {1} sin pasos documentados',chk_steps_bad_d:'Agrega instrucciones paso a paso para que sean utilizables.',chk_steps_good:'Todos los procesos tienen pasos',chk_steps_good_d:'Cada POE es accionable.',
+  chk_pending:'{0} {1} en espera de aprobación',chk_pending_d:'Pasa los borradores por revisión para fijarlos.',chk_pending_good:'Todos los POE aprobados',chk_pending_good_d:'Tu manual está listo para aprobación.',
+  chk_orphan:'{0} {1} sin enlaces a otros',chk_orphan_d:'Mapea sus relaciones anteriores/posteriores.',chk_orphan_good:'Todos los procesos conectados',chk_orphan_good_d:'Las relaciones están mapeadas.',
+  chk_emptydept:'{0} {1} sin procesos',chk_emptydept_d:'Documenta al menos un proceso por departamento activo.',
+  proc_one:'proceso',proc_many:'procesos',sop_one:'POE',sop_many:'POE',dept_one:'departamento',dept_many:'departamentos',step_one:'paso',step_many:'pasos',approved_lc:'aprobados',
+  map_external:'Parte externa',manage_depts:'Departamentos',manage_suppliers:'Proveedores',mgr_dept_eyebrow:'Gestionar',mgr_dept_title:'Departamentos',mgr_sup_eyebrow:'Gestionar',mgr_sup_title:'Proveedores y Partes Externas',done:'Listo',
+  add_dept_ph:'Nombre del nuevo departamento…',add_sup_ph:'Nombre del nuevo proveedor / parte…',sup_type_ph:'Tipo (ej. Proveedor, Socio)',dept_blocked:'Primero mueve o elimina sus procesos.',confirm_del_dept:'¿Eliminar el departamento "{0}"?',confirm_del_sup:'¿Eliminar "{0}"? Se desvinculará de todos los procesos.',
+  toast_dept_added:'Departamento agregado',toast_dept_removed:'Departamento eliminado',toast_sup_added:'Proveedor agregado',toast_sup_removed:'Proveedor eliminado',mgr_sup_empty:'Aún no hay proveedores externos. Agrega el primero abajo.',
+  lbl_suppliers:'Proveedores / Partes Externas',hint_suppliers:'Proveedores, socios o reguladores externos con los que trabaja este proceso. Aparecen como un carril externo en el mapa.',suppliers_none:'Aún no hay proveedores definidos — agrégalos en Proveedores en el mapa.',
+  dir_in:'Provee a este proceso',dir_out:'Este proceso entrega a',dir_both:'Bidireccional',sup_pick:'Seleccionar proveedor…',
+  doc_suppliers:'Proveedores y Partes Externas',doc_suppliers_empty:'Sin partes externas vinculadas.',doc_sup_in:'Recibe de',doc_sup_out:'Entrega a',doc_sup_both:'Bidireccional con',ext_badge:'EXTERNO',
+  role_staff:'Personal',role_director:'Director de Departamento',role_gm:'Gerente General',st_submitted:'Enviado',st_dir_approved:'Aprobado por Director',
+  login_title:'Iniciar sesión',login_sub:'Selecciona tu nombre para continuar.',login_select_user:'Tu nombre',login_pin:'PIN',login_signin:'Iniciar sesión',login_hint:'Gestiona quién puede iniciar sesión en Usuarios, en la pestaña Mapa de Procesos.',login_err_pin:'PIN incorrecto.',login_err_select:'Por favor selecciona tu nombre.',
+  login_first_title:'Bienvenido',login_first_sub:'Configura la primera cuenta para comenzar.',login_name_ph:'Tu nombre completo',login_create:'Crear cuenta e iniciar sesión',login_err_name:'Por favor ingresa tu nombre.',sign_out:'Cerrar sesión',
+  manage_users:'Usuarios',mgr_user_eyebrow:'Gestionar',mgr_user_title:'Usuarios y Roles',mgr_user_empty:'Aún no hay usuarios. Agrega el primero abajo.',add_user_ph:'Nombre completo…',user_role:'Rol',pin_optional:'PIN (opcional)',confirm_del_user:'¿Eliminar al usuario "{0}"?',toast_user_added:'Usuario agregado',toast_user_removed:'Usuario eliminado',
+  lbl_stage:'Etapa de aprobación',appr_title:'Aprobación',submit_for_approval:'Enviar a aprobación',approve_director:'Aprobar (Director)',approve_gm:'Aprobar y finalizar (Gerente General)',send_back:'Devolver a borrador',appr_director_label:'Director de Departamento',appr_gm_label:'Gerente General',appr_stamp:'{0} · {1}',appr_pending:'Pendiente',
+  toast_submitted:'Enviado a aprobación',toast_dir_approved:'Aprobado por el Director',toast_gm_approved:'Aprobación final otorgada',toast_sent_back:'Devuelto a borrador',toast_no_perm:'Tu rol no puede hacer eso',
+  hist_title:'Historial de cambios',act_created:'Creado',act_edited:'Editado',act_submitted:'Enviado',act_dir_approved:'Aprobado por Director',act_gm_approved:'Aprobado por GG',act_sent_back:'Devuelto',lastedit:'Última edición por {0} · {1}',
+  sig_title:'Aprobaciones',sig_prepared:'Preparado por',sig_director:'Director de Departamento',sig_gm:'Gerente General',sig_pending:'Pendiente de aprobación',
+  csv_h:['Proceso','Departamento','Responsable','Cargo','Suplente','Frecuencia','Estado','Propósito','Disparador','Entradas','Salidas','Sistemas','Pasos','Depende De','KPIs','Riesgos','Notas','Proveedores Externos'],
+  freq_continuous:'Continuo',freq_daily:'Diario',freq_weekly:'Semanal',freq_biweekly:'Quincenal',freq_monthly:'Mensual',freq_quarterly:'Trimestral',freq_annually:'Anual',freq_adhoc:'Bajo demanda'
+ },
+ pt:{
+  tagline:'Arquiteto de Processos e POP',tab_overview:'Visão Geral',tab_processes:'Processos',tab_map:'Mapa de Processos',tab_library:'Biblioteca de POP',
+  new_process:'Novo Processo',import_title:'Importar dados',export_title:'Exportar / backup de dados (JSON)',export_csv:'Exportar resultados (CSV)',
+  dash_eyebrow:'Seu Guia Experiente para o Sucesso',dash_h1:'Visão Geral da Prontidão de POP',
+  dash_p:'Acompanhe o quão completos estão seus procedimentos operacionais, veja onde os processos se conectam entre departamentos e encontre as lacunas que ainda precisam ser documentadas.',
+  stat_processes:'Processos Documentados',stat_departments:'Departamentos Mapeados',stat_handoffs:'Transferências entre Áreas',stat_approved:'POP Aprovados',
+  health_title:'Saúde da Documentação',health_sub:'Lacunas a fechar antes que seu conjunto de POP esteja completo e pronto para auditoria.',
+  score_title:'Pontuação de Completude de POP',ready_approved:'{0} de {1} processos totalmente aprovados',ready_steps:'{0} de {1} com etapas documentadas',ready_owner:'{0} de {1} com responsável atribuído',
+  dept_title:'Processos por Departamento',dept_sub:'Cobertura em toda a sua organização.',dept_bar_count:'{0} {1} · {2} aprovados',
+  proc_eyebrow:'Catálogo',proc_h1:'Registro de Processos',proc_p:'A lista mestra de cada processo documentado e em andamento. Clique em um nome para abrir seu registro POP completo.',
+  search_ph:'Buscar por processo ou responsável…',all_departments:'Todos os Departamentos',all_statuses:'Todos os Status',st_draft:'Rascunho',st_review:'Em Revisão',st_approved:'Aprovado',
+  th_process:'Processo',th_department:'Departamento',th_owner:'Responsável',th_frequency:'Frequência',th_links:'Vínculos',th_status:'Status',
+  step_count:'{0} {1}',no_purpose_short:'Sem propósito ainda',unassigned:'Não atribuído',view_sop:'Ver POP',edit:'Editar',delete:'Excluir',
+  empty_filter:'Nenhum processo corresponde. Ajuste os filtros ou adicione um novo processo.',del_confirm:'Excluir "{0}"? Isso também o removerá de quaisquer vínculos de dependência.',toast_deleted:'Processo excluído',
+  map_eyebrow:'Relações',map_h1:'Mapa Interdepartamental de Processos',map_p:'Cada coluna é um departamento. As linhas mostram dependências — onde um processo transfere para outro. Linhas coral cruzam os limites de departamento. Clique em um nó para rastrear suas conexões.',
+  map_cross:'Transferência entre departamentos',map_within:'Fluxo dentro do departamento',map_reset:'Limpar destaque',no_processes:'Sem processos',
+  lib_eyebrow:'Entregáveis',lib_h1:'Biblioteca de POP',lib_p:'Gere um Procedimento Operacional Padrão limpo e com sua marca para qualquer processo — pronto para imprimir, salvar como PDF ou entregar à sua equipe.',
+  open_manual:'Abrir manual completo de POP',lib_empty:'Nenhum processo documentado ainda. Adicione um para gerar seu POP.',
+  ed_new_eyebrow:'Novo Processo',ed_edit_eyebrow:'Editar Processo',ed_new_title:'Documentar um Processo',
+  lbl_name:'Nome do Processo',ph_name:'ex. Integração de Cliente',lbl_department:'Departamento',lbl_frequency:'Frequência',
+  lbl_owner:'Responsável pelo Processo',ph_owner:'Nome completo',lbl_role:'Cargo / Título do Responsável',ph_role:'ex. Gerente de Operações',
+  lbl_backup:'Suplente / Substituto',ph_optional:'Opcional',lbl_status:'Status',
+  lbl_purpose:'Propósito',hint_purpose:'Por que este processo existe e o que ele realiza.',ph_purpose:'Descreva o objetivo deste processo…',
+  lbl_trigger:'Gatilho',hint_trigger:'Qual evento inicia este processo.',ph_trigger:'ex. Um contrato assinado é recebido…',
+  sec_steps:'Etapas do Procedimento',add_step:'Adicionar Etapa',ph_step:'Descreva esta etapa…',ph_step_role:'Função responsável',ph_step_system:'Sistema / ferramenta',
+  sec_io:'Entradas e Saídas',lbl_inputs:'Entradas Necessárias',ph_inputs:'O que entra (ex. contrato assinado)',lbl_outputs:'Saídas Produzidas',ph_outputs:'O que sai (ex. espaço do projeto)',
+  lbl_systems:'Sistemas e Ferramentas',ph_systems:'ex. CRM, software de contabilidade',
+  sec_rel:'Relações',lbl_depends:'Depende De (processos anteriores)',hint_depends:'Quais processos devem ocorrer antes deste. Vínculos entre departamentos aparecem em coral no mapa.',depends_empty:'Adicione mais processos para mapear dependências.',
+  sec_gov:'Governança',lbl_kpis:'Métricas-Chave (KPIs)',ph_kpis:'Como o sucesso é medido',lbl_risks:'Riscos e Controles',ph_risks:'O que pode dar errado e salvaguardas',lbl_notes:'Notas',ph_notes:'Qualquer outra coisa que valha a pena registrar…',
+  btn_add:'Adicionar',cancel:'Cancelar',save_process:'Salvar Processo',toast_name:'Por favor, dê um nome ao processo',toast_updated:'Processo atualizado',toast_added:'Processo adicionado',
+  doc_back:'Voltar',doc_print:'Imprimir / Salvar como PDF',doc_type_sop:'Procedimento Operacional Padrão',doc_type_manual:'Manual de POP',
+  doc_owner:'Responsável pelo Processo',doc_role:'Cargo',doc_freq:'Frequência',doc_status:'Status',
+  doc_purpose:'Propósito',doc_purpose_empty:'Sem propósito documentado.',doc_trigger:'Gatilho',doc_trigger_empty:'Sem gatilho documentado.',
+  doc_inputs:'Entradas Necessárias',doc_inputs_empty:'Nenhuma entrada listada.',doc_outputs:'Saídas Produzidas',doc_outputs_empty:'Nenhuma saída listada.',
+  doc_procedure:'Procedimento',doc_proc_empty:'Nenhuma etapa de procedimento documentada ainda.',doc_responsible:'Responsável',doc_system:'Sistema',
+  doc_systems:'Sistemas e Ferramentas',doc_systems_empty:'Nenhum sistema listado.',
+  doc_relationships:'Relações do Processo',doc_receives:'Recebe transferência de',doc_handsto:'Transfere para',doc_rel_empty:'Nenhuma dependência anterior ou posterior mapeada.',
+  doc_kpis:'Métricas-Chave (KPIs)',doc_kpis_empty:'Nenhum KPI definido.',doc_risks:'Riscos e Controles',doc_risks_empty:'Nenhum risco identificado.',doc_notes:'Notas',
+  doc_footer_sop:'Global 1080 Business Solutions · Procedimento Operacional Padrão',doc_footer_owner:'Responsável: {0} · Última atualização {1}',
+  doc_manual_name:'Manual Operacional Completo',doc_manual_title:'Procedimentos Operacionais Padrão',doc_manual_intro:'Uma referência completa de {0} processos documentados em {1} departamentos. Gerado em {2}.',doc_contents:'Conteúdo',
+  toast_no_compile:'Nenhum processo para compilar',toast_no_csv:'Nenhum resultado para exportar',
+  toast_exported:'Dados exportados',toast_csv:'Resultados exportados (CSV)',toast_imported:'Dados importados',toast_invalid:'Arquivo inválido',
+  chk_owner_bad:'{0} {1} sem responsável atribuído',chk_owner_bad_d:'Cada POP precisa de um responsável.',chk_owner_good:'Todos os processos têm responsável',chk_owner_good_d:'A responsabilidade está claramente atribuída.',
+  chk_steps_bad:'{0} {1} sem etapas documentadas',chk_steps_bad_d:'Adicione instruções passo a passo para torná-los utilizáveis.',chk_steps_good:'Todos os processos têm etapas',chk_steps_good_d:'Cada POP é acionável.',
+  chk_pending:'{0} {1} aguardando aprovação',chk_pending_d:'Leve os rascunhos pela revisão para consolidá-los.',chk_pending_good:'Todos os POP aprovados',chk_pending_good_d:'Seu manual está pronto para aprovação.',
+  chk_orphan:'{0} {1} sem vínculos com outros',chk_orphan_d:'Mapeie suas relações anteriores/posteriores.',chk_orphan_good:'Todos os processos conectados',chk_orphan_good_d:'As relações estão mapeadas.',
+  chk_emptydept:'{0} {1} sem processos',chk_emptydept_d:'Documente ao menos um processo por departamento ativo.',
+  proc_one:'processo',proc_many:'processos',sop_one:'POP',sop_many:'POPs',dept_one:'departamento',dept_many:'departamentos',step_one:'etapa',step_many:'etapas',approved_lc:'aprovados',
+  map_external:'Parte externa',manage_depts:'Departamentos',manage_suppliers:'Fornecedores',mgr_dept_eyebrow:'Gerenciar',mgr_dept_title:'Departamentos',mgr_sup_eyebrow:'Gerenciar',mgr_sup_title:'Fornecedores e Partes Externas',done:'Concluído',
+  add_dept_ph:'Nome do novo departamento…',add_sup_ph:'Nome do novo fornecedor / parte…',sup_type_ph:'Tipo (ex. Fornecedor, Parceiro)',dept_blocked:'Primeiro mova ou exclua seus processos.',confirm_del_dept:'Excluir o departamento "{0}"?',confirm_del_sup:'Excluir "{0}"? Ele será desvinculado de todos os processos.',
+  toast_dept_added:'Departamento adicionado',toast_dept_removed:'Departamento removido',toast_sup_added:'Fornecedor adicionado',toast_sup_removed:'Fornecedor removido',mgr_sup_empty:'Nenhum fornecedor externo ainda. Adicione o primeiro abaixo.',
+  lbl_suppliers:'Fornecedores / Partes Externas',hint_suppliers:'Fornecedores, parceiros ou reguladores externos com os quais este processo trabalha. Aparecem como uma faixa externa no mapa.',suppliers_none:'Nenhum fornecedor definido ainda — adicione-os em Fornecedores no mapa.',
+  dir_in:'Fornece a este processo',dir_out:'Este processo entrega a',dir_both:'Bidirecional',sup_pick:'Selecionar fornecedor…',
+  doc_suppliers:'Fornecedores e Partes Externas',doc_suppliers_empty:'Nenhuma parte externa vinculada.',doc_sup_in:'Recebe de',doc_sup_out:'Entrega a',doc_sup_both:'Bidirecional com',ext_badge:'EXTERNO',
+  role_staff:'Equipe',role_director:'Diretor de Departamento',role_gm:'Gerente Geral',st_submitted:'Enviado',st_dir_approved:'Aprovado pelo Diretor',
+  login_title:'Entrar',login_sub:'Selecione seu nome para continuar.',login_select_user:'Seu nome',login_pin:'PIN',login_signin:'Entrar',login_hint:'Gerencie quem pode entrar em Usuários, na aba Mapa de Processos.',login_err_pin:'PIN incorreto.',login_err_select:'Por favor, selecione seu nome.',
+  login_first_title:'Bem-vindo',login_first_sub:'Configure a primeira conta para começar.',login_name_ph:'Seu nome completo',login_create:'Criar conta e entrar',login_err_name:'Por favor, informe seu nome.',sign_out:'Sair',
+  manage_users:'Usuários',mgr_user_eyebrow:'Gerenciar',mgr_user_title:'Usuários e Funções',mgr_user_empty:'Nenhum usuário ainda. Adicione o primeiro abaixo.',add_user_ph:'Nome completo…',user_role:'Função',pin_optional:'PIN (opcional)',confirm_del_user:'Remover o usuário "{0}"?',toast_user_added:'Usuário adicionado',toast_user_removed:'Usuário removido',
+  lbl_stage:'Etapa de aprovação',appr_title:'Aprovação',submit_for_approval:'Enviar para aprovação',approve_director:'Aprovar (Diretor)',approve_gm:'Aprovar e finalizar (Gerente Geral)',send_back:'Devolver para rascunho',appr_director_label:'Diretor de Departamento',appr_gm_label:'Gerente Geral',appr_stamp:'{0} · {1}',appr_pending:'Pendente',
+  toast_submitted:'Enviado para aprovação',toast_dir_approved:'Aprovado pelo Diretor',toast_gm_approved:'Aprovação final concedida',toast_sent_back:'Devolvido para rascunho',toast_no_perm:'Sua função não pode fazer isso',
+  hist_title:'Histórico de alterações',act_created:'Criado',act_edited:'Editado',act_submitted:'Enviado',act_dir_approved:'Aprovado pelo Diretor',act_gm_approved:'Aprovado pelo GG',act_sent_back:'Devolvido',lastedit:'Última edição por {0} · {1}',
+  sig_title:'Aprovações',sig_prepared:'Preparado por',sig_director:'Diretor de Departamento',sig_gm:'Gerente Geral',sig_pending:'Aprovação pendente',
+  csv_h:['Processo','Departamento','Responsável','Cargo','Suplente','Frequência','Status','Propósito','Gatilho','Entradas','Saídas','Sistemas','Etapas','Depende De','KPIs','Riscos','Notas','Fornecedores Externos'],
+  freq_continuous:'Contínuo',freq_daily:'Diário',freq_weekly:'Semanal',freq_biweekly:'Quinzenal',freq_monthly:'Mensal',freq_quarterly:'Trimestral',freq_annually:'Anual',freq_adhoc:'Sob demanda'
+ }
+};
+let LANG='en';
+const LOCALE={en:'en-GB',es:'es-ES',pt:'pt-BR'};
+function t(key,...a){let s=(I18N[LANG]&&I18N[LANG][key]!==undefined)?I18N[LANG][key]:(I18N.en[key]!==undefined?I18N.en[key]:key);if(typeof s==='string'&&a.length)s=s.replace(/\{(\d+)\}/g,(m,i)=>a[i]!==undefined?a[i]:m);return s;}
+function noun(n,base){return n===1?t(base+'_one'):t(base+'_many');}
+const FREQ=['continuous','daily','weekly','biweekly','monthly','quarterly','annually','adhoc'];
+function freqLabel(k){return t('freq_'+k);}
+function statusLabel(k){return {draft:t('st_draft'),submitted:t('st_submitted'),dir_approved:t('st_dir_approved'),review:t('st_submitted'),approved:t('st_approved')}[k]||t('st_draft');}
+const ROLES=['staff','director','gm'];
+function roleLabel(r){return {staff:t('role_staff'),director:t('role_director'),gm:t('role_gm')}[r]||t('role_staff');}
+let CURRENT=null; /* current signed-in user object */
+function isDirector(){return CURRENT&&(CURRENT.role==='director'||CURRENT.role==='gm');}
+function isGM(){return CURRENT&&CURRENT.role==='gm';}
+/* ===== STATE ===== */
+let DB={departments:[],processes:[],meta:{}};
+let editingId=null,mapHL=null,draft=null;
+const uid=()=>Math.random().toString(36).slice(2,9);
+function dept(id){return DB.departments.find(d=>d.id===id);}
+function supplier(id){return (DB.suppliers||[]).find(s=>s.id===id);}
+function proc(id){return DB.processes.find(p=>p.id===id);}
+function downstream(id){return DB.processes.filter(p=>(p.dependsOn||[]).includes(id));}
+function initials(n){if(!n)return '';return n.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();}
+function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ===== LOCALIZED SEED ===== */
+const SEED_DEPTS={
+ en:['Sales & Marketing','Operations & Delivery','Finance','People & HR','Customer Success'],
+ es:['Ventas y Marketing','Operaciones y Entrega','Finanzas','Personas y RR. HH.','Éxito del Cliente'],
+ pt:['Vendas e Marketing','Operações e Entrega','Financeiro','Pessoas e RH','Sucesso do Cliente']
+};
+const DEPT_COLORS=['#FF4948','#5B8DEF','#37D399','#C77DFF','#FFB454'];
+const SEED_PROC={
+ en:[
+  {d:0,n:'Lead Qualification',o:'Maria Reyes',r:'Sales Lead',f:'daily',s:'approved',deps:[],
+   p:'Assess inbound and outbound leads against ideal-client criteria so the team only invests time in viable opportunities.',
+   tr:'A new lead enters the CRM or is added manually after an event.',
+   in:['Inbound enquiry / form','Lead source data'],out:['Qualified opportunity record','Disqualification note'],sys:['HubSpot CRM','LinkedIn Sales Nav'],
+   kp:['Lead-to-opportunity rate','Time to first response'],rk:['Inconsistent scoring criteria','Leads going cold from slow response'],
+   st:[['Review new lead details and source within 4 business hours.','Sales Lead','HubSpot CRM'],['Score against the BANT checklist (Budget, Authority, Need, Timeline).','Sales Lead','Scoring sheet'],['Tag as Qualified or Disqualified and log the reason.','Sales Lead','HubSpot CRM']]},
+  {d:0,n:'Proposal & Quoting',o:'Maria Reyes',r:'Sales Lead',f:'weekly',s:'review',deps:[0],
+   p:'Produce accurate, branded proposals and quotes that reflect agreed scope and pricing.',
+   tr:'A lead is marked Qualified and requests a proposal.',
+   in:['Qualified opportunity','Scope notes from discovery call'],out:['Signed proposal','Pricing approval'],sys:['PandaDoc','Pricing calculator'],
+   kp:['Proposal win rate','Avg. days to close'],rk:['Scope not matching delivery capacity','Pricing errors'],
+   st:[['Confirm scope and deliverables with the prospect.','Sales Lead','Call notes'],['Build the quote in the pricing calculator and route for sign-off if above threshold.','Sales Lead','Pricing calculator'],['Generate the proposal from the master template and send for e-signature.','Sales Lead','PandaDoc']]},
+  {d:1,n:'Client Onboarding',o:'Devon Clarke',r:'Delivery Manager',f:'adhoc',s:'draft',deps:[1],
+   p:'Move a newly-won client smoothly from contract to active delivery with clear expectations.',
+   tr:'A proposal is signed and finance confirms the deposit.',
+   in:['Signed proposal','Deposit confirmation','Client contacts'],out:['Project workspace','Kickoff agenda','Onboarding pack'],sys:['Asana','Slack Connect','Google Drive'],
+   kp:['Days from signature to kickoff','Onboarding CSAT'],rk:['Missing stakeholder info','Delivery starting before billing is set up'],
+   st:[['Create the client workspace and folder structure from the template.','Delivery Manager','Asana'],['Send the welcome pack and schedule the kickoff call within 5 days.','Delivery Manager','Email'],['Run the kickoff and confirm milestones, contacts, and comms channels.','Delivery Manager','Slack Connect']]},
+  {d:2,n:'Billing & Invoicing Setup',o:'',r:'Finance Officer',f:'monthly',s:'draft',deps:[1,2],
+   p:'Establish the billing schedule and issue invoices accurately and on time for each engagement.',
+   tr:'A new client is onboarded or a billing cycle is due.',
+   in:['Signed contract terms','Onboarding confirmation'],out:['Invoice','Billing schedule'],sys:['Xero','Stripe'],
+   kp:['Invoice accuracy %','Days sales outstanding'],rk:['Invoicing against wrong terms','Late invoices delaying cash flow'],
+   st:[['Set up the customer and payment terms in the accounting system.','Finance Officer','Xero'],['Generate and review the first invoice against contract terms.','Finance Officer','Xero'],['Send the invoice and log the due date for follow-up.','Finance Officer','Stripe']]},
+  {d:1,n:'Project Delivery & Reporting',o:'Devon Clarke',r:'Delivery Manager',f:'weekly',s:'review',deps:[2],
+   p:'Execute client work to scope and quality, with regular progress reporting.',
+   tr:'Kickoff is complete and the project is active.',
+   in:['Approved scope','Project plan'],out:['Deliverables','Weekly status report'],sys:['Asana','Google Drive'],
+   kp:['On-time delivery %','Scope variance'],rk:['Scope creep','Resource clashes across clients'],
+   st:[['Maintain the project board and assign weekly tasks.','Delivery Manager','Asana'],['Hold the internal stand-up and update milestone status.','Delivery Team','Slack'],['Send the client a weekly status report every Friday.','Delivery Manager','Email']]},
+  {d:4,n:'Renewal & Account Review',o:'Priya Nair',r:'CS Manager',f:'quarterly',s:'draft',deps:[4],
+   p:'Review account health and secure renewals or expansion before contracts lapse.',
+   tr:'90 days before a contract end date.',
+   in:['Delivery reports','Usage / satisfaction data'],out:['Renewal proposal','Account health report'],sys:['HubSpot CRM','Asana'],
+   kp:['Net revenue retention','Renewal rate'],rk:['Late renewal outreach','Unaddressed satisfaction issues'],
+   st:[['Pull delivery and satisfaction data for the account.','CS Manager','HubSpot CRM'],['Hold a review call and capture renewal intent and risks.','CS Manager','Call notes'],['Hand expansion opportunities to Sales and log renewal status.','CS Manager','HubSpot CRM']]},
+  {d:3,n:'Employee Onboarding',o:'Sam Okafor',r:'People Ops',f:'adhoc',s:'approved',deps:[],
+   p:'Get new hires equipped, compliant, and productive from day one.',
+   tr:'A signed offer letter is received.',
+   in:['Signed offer','Role checklist'],out:['Equipped employee','Completed compliance docs'],sys:['BambooHR','Google Workspace'],
+   kp:['Time-to-productivity','30-day retention'],rk:['Access not ready on day one','Missing compliance paperwork'],
+   st:[['Provision accounts, hardware, and access before the start date.','People Ops','Google Workspace'],['Run day-one orientation and assign a buddy.','People Ops','BambooHR'],['Complete compliance docs and schedule the 30-day check-in.','People Ops','BambooHR']]}
+ ],
+ es:[
+  {d:0,n:'Calificación de Prospectos',o:'María Reyes',r:'Líder de Ventas',f:'daily',s:'approved',deps:[],
+   p:'Evaluar los prospectos entrantes y salientes según los criterios del cliente ideal para que el equipo solo invierta tiempo en oportunidades viables.',
+   tr:'Un nuevo prospecto entra al CRM o se agrega manualmente tras un evento.',
+   in:['Consulta / formulario entrante','Datos de origen del prospecto'],out:['Registro de oportunidad calificada','Nota de descalificación'],sys:['HubSpot CRM','LinkedIn Sales Nav'],
+   kp:['Tasa de prospecto a oportunidad','Tiempo a la primera respuesta'],rk:['Criterios de puntuación inconsistentes','Prospectos que se enfrían por respuesta lenta'],
+   st:[['Revisar los datos y el origen del nuevo prospecto en 4 horas hábiles.','Líder de Ventas','HubSpot CRM'],['Puntuar según la lista BANT (Presupuesto, Autoridad, Necesidad, Plazo).','Líder de Ventas','Hoja de puntuación'],['Etiquetar como Calificado o Descalificado y registrar el motivo.','Líder de Ventas','HubSpot CRM']]},
+  {d:0,n:'Propuesta y Cotización',o:'María Reyes',r:'Líder de Ventas',f:'weekly',s:'review',deps:[0],
+   p:'Producir propuestas y cotizaciones precisas y con la marca que reflejen el alcance y los precios acordados.',
+   tr:'Un prospecto se marca como Calificado y solicita una propuesta.',
+   in:['Oportunidad calificada','Notas de alcance de la llamada de descubrimiento'],out:['Propuesta firmada','Aprobación de precios'],sys:['PandaDoc','Calculadora de precios'],
+   kp:['Tasa de éxito de propuestas','Días promedio para cerrar'],rk:['Alcance que no coincide con la capacidad de entrega','Errores de precio'],
+   st:[['Confirmar el alcance y los entregables con el prospecto.','Líder de Ventas','Notas de llamada'],['Construir la cotización en la calculadora y enviarla a aprobación si supera el umbral.','Líder de Ventas','Calculadora de precios'],['Generar la propuesta desde la plantilla maestra y enviarla para firma electrónica.','Líder de Ventas','PandaDoc']]},
+  {d:1,n:'Incorporación de Cliente',o:'Devon Clarke',r:'Gerente de Entrega',f:'adhoc',s:'draft',deps:[1],
+   p:'Llevar a un cliente recién ganado del contrato a la entrega activa de forma fluida y con expectativas claras.',
+   tr:'Se firma una propuesta y finanzas confirma el depósito.',
+   in:['Propuesta firmada','Confirmación de depósito','Contactos del cliente'],out:['Espacio de proyecto','Agenda de inicio','Paquete de incorporación'],sys:['Asana','Slack Connect','Google Drive'],
+   kp:['Días de la firma al inicio','CSAT de incorporación'],rk:['Falta de información de partes interesadas','La entrega comienza antes de configurar la facturación'],
+   st:[['Crear el espacio del cliente y la estructura de carpetas desde la plantilla.','Gerente de Entrega','Asana'],['Enviar el paquete de bienvenida y programar la reunión de inicio en 5 días.','Gerente de Entrega','Correo'],['Realizar el inicio y confirmar hitos, contactos y canales de comunicación.','Gerente de Entrega','Slack Connect']]},
+  {d:2,n:'Configuración de Facturación',o:'',r:'Oficial de Finanzas',f:'monthly',s:'draft',deps:[1,2],
+   p:'Establecer el calendario de facturación y emitir facturas con precisión y a tiempo para cada contrato.',
+   tr:'Se incorpora un nuevo cliente o vence un ciclo de facturación.',
+   in:['Términos del contrato firmado','Confirmación de incorporación'],out:['Factura','Calendario de facturación'],sys:['Xero','Stripe'],
+   kp:['% de precisión de facturas','Días de ventas pendientes'],rk:['Facturar con términos equivocados','Facturas tardías que retrasan el flujo de caja'],
+   st:[['Configurar el cliente y los términos de pago en el sistema contable.','Oficial de Finanzas','Xero'],['Generar y revisar la primera factura según los términos del contrato.','Oficial de Finanzas','Xero'],['Enviar la factura y registrar la fecha de vencimiento para seguimiento.','Oficial de Finanzas','Stripe']]},
+  {d:1,n:'Entrega de Proyecto e Informes',o:'Devon Clarke',r:'Gerente de Entrega',f:'weekly',s:'review',deps:[2],
+   p:'Ejecutar el trabajo del cliente según el alcance y la calidad, con informes de progreso periódicos.',
+   tr:'El inicio está completo y el proyecto está activo.',
+   in:['Alcance aprobado','Plan del proyecto'],out:['Entregables','Informe de estado semanal'],sys:['Asana','Google Drive'],
+   kp:['% de entrega a tiempo','Variación de alcance'],rk:['Ampliación del alcance','Conflictos de recursos entre clientes'],
+   st:[['Mantener el tablero del proyecto y asignar tareas semanales.','Gerente de Entrega','Asana'],['Realizar la reunión interna y actualizar el estado de los hitos.','Equipo de Entrega','Slack'],['Enviar al cliente un informe de estado semanal cada viernes.','Gerente de Entrega','Correo']]},
+  {d:4,n:'Renovación y Revisión de Cuenta',o:'Priya Nair',r:'Gerente de Éxito del Cliente',f:'quarterly',s:'draft',deps:[4],
+   p:'Revisar la salud de la cuenta y asegurar renovaciones o expansión antes de que venzan los contratos.',
+   tr:'90 días antes de la fecha de fin del contrato.',
+   in:['Informes de entrega','Datos de uso / satisfacción'],out:['Propuesta de renovación','Informe de salud de la cuenta'],sys:['HubSpot CRM','Asana'],
+   kp:['Retención neta de ingresos','Tasa de renovación'],rk:['Contacto de renovación tardío','Problemas de satisfacción no atendidos'],
+   st:[['Reunir los datos de entrega y satisfacción de la cuenta.','Gerente de Éxito del Cliente','HubSpot CRM'],['Realizar una llamada de revisión y captar la intención de renovación y los riesgos.','Gerente de Éxito del Cliente','Notas de llamada'],['Pasar oportunidades de expansión a Ventas y registrar el estado de renovación.','Gerente de Éxito del Cliente','HubSpot CRM']]},
+  {d:3,n:'Incorporación de Empleados',o:'Sam Okafor',r:'Operaciones de Personas',f:'adhoc',s:'approved',deps:[],
+   p:'Lograr que los nuevos empleados estén equipados, en cumplimiento y productivos desde el primer día.',
+   tr:'Se recibe una carta de oferta firmada.',
+   in:['Oferta firmada','Lista de verificación del puesto'],out:['Empleado equipado','Documentos de cumplimiento completados'],sys:['BambooHR','Google Workspace'],
+   kp:['Tiempo hasta la productividad','Retención a 30 días'],rk:['Accesos no listos el primer día','Documentación de cumplimiento faltante'],
+   st:[['Aprovisionar cuentas, hardware y accesos antes de la fecha de inicio.','Operaciones de Personas','Google Workspace'],['Realizar la orientación del primer día y asignar un compañero guía.','Operaciones de Personas','BambooHR'],['Completar los documentos de cumplimiento y agendar la revisión a 30 días.','Operaciones de Personas','BambooHR']]}
+ ],
+ pt:[
+  {d:0,n:'Qualificação de Leads',o:'Maria Reyes',r:'Líder de Vendas',f:'daily',s:'approved',deps:[],
+   p:'Avaliar leads de entrada e saída segundo os critérios de cliente ideal para que a equipe invista tempo apenas em oportunidades viáveis.',
+   tr:'Um novo lead entra no CRM ou é adicionado manualmente após um evento.',
+   in:['Consulta / formulário de entrada','Dados de origem do lead'],out:['Registro de oportunidade qualificada','Nota de desqualificação'],sys:['HubSpot CRM','LinkedIn Sales Nav'],
+   kp:['Taxa de lead para oportunidade','Tempo até a primeira resposta'],rk:['Critérios de pontuação inconsistentes','Leads que esfriam por resposta lenta'],
+   st:[['Revisar os dados e a origem do novo lead em até 4 horas úteis.','Líder de Vendas','HubSpot CRM'],['Pontuar conforme a lista BANT (Orçamento, Autoridade, Necessidade, Prazo).','Líder de Vendas','Planilha de pontuação'],['Marcar como Qualificado ou Desqualificado e registrar o motivo.','Líder de Vendas','HubSpot CRM']]},
+  {d:0,n:'Proposta e Cotação',o:'Maria Reyes',r:'Líder de Vendas',f:'weekly',s:'review',deps:[0],
+   p:'Produzir propostas e cotações precisas e com a marca que reflitam o escopo e o preço acordados.',
+   tr:'Um lead é marcado como Qualificado e solicita uma proposta.',
+   in:['Oportunidade qualificada','Notas de escopo da reunião de descoberta'],out:['Proposta assinada','Aprovação de preço'],sys:['PandaDoc','Calculadora de preços'],
+   kp:['Taxa de conversão de propostas','Média de dias para fechar'],rk:['Escopo incompatível com a capacidade de entrega','Erros de precificação'],
+   st:[['Confirmar o escopo e as entregas com o prospecto.','Líder de Vendas','Notas da reunião'],['Montar a cotação na calculadora e encaminhar para aprovação se acima do limite.','Líder de Vendas','Calculadora de preços'],['Gerar a proposta a partir do modelo mestre e enviar para assinatura eletrônica.','Líder de Vendas','PandaDoc']]},
+  {d:1,n:'Integração de Cliente',o:'Devon Clarke',r:'Gerente de Entrega',f:'adhoc',s:'draft',deps:[1],
+   p:'Conduzir um cliente recém-conquistado do contrato à entrega ativa de forma fluida e com expectativas claras.',
+   tr:'Uma proposta é assinada e o financeiro confirma o depósito.',
+   in:['Proposta assinada','Confirmação de depósito','Contatos do cliente'],out:['Espaço do projeto','Pauta de kickoff','Pacote de integração'],sys:['Asana','Slack Connect','Google Drive'],
+   kp:['Dias da assinatura ao kickoff','CSAT de integração'],rk:['Falta de informações de partes interessadas','Entrega iniciando antes da configuração do faturamento'],
+   st:[['Criar o espaço do cliente e a estrutura de pastas a partir do modelo.','Gerente de Entrega','Asana'],['Enviar o pacote de boas-vindas e agendar o kickoff em até 5 dias.','Gerente de Entrega','E-mail'],['Conduzir o kickoff e confirmar marcos, contatos e canais de comunicação.','Gerente de Entrega','Slack Connect']]},
+  {d:2,n:'Configuração de Faturamento',o:'',r:'Analista Financeiro',f:'monthly',s:'draft',deps:[1,2],
+   p:'Estabelecer o cronograma de faturamento e emitir faturas com precisão e pontualidade para cada contrato.',
+   tr:'Um novo cliente é integrado ou um ciclo de faturamento vence.',
+   in:['Termos do contrato assinado','Confirmação de integração'],out:['Fatura','Cronograma de faturamento'],sys:['Xero','Stripe'],
+   kp:['% de precisão das faturas','Prazo médio de recebimento'],rk:['Faturar com termos errados','Faturas atrasadas prejudicando o fluxo de caixa'],
+   st:[['Configurar o cliente e os termos de pagamento no sistema contábil.','Analista Financeiro','Xero'],['Gerar e revisar a primeira fatura conforme os termos do contrato.','Analista Financeiro','Xero'],['Enviar a fatura e registrar a data de vencimento para acompanhamento.','Analista Financeiro','Stripe']]},
+  {d:1,n:'Entrega de Projeto e Relatórios',o:'Devon Clarke',r:'Gerente de Entrega',f:'weekly',s:'review',deps:[2],
+   p:'Executar o trabalho do cliente conforme escopo e qualidade, com relatórios de progresso regulares.',
+   tr:'O kickoff está concluído e o projeto está ativo.',
+   in:['Escopo aprovado','Plano do projeto'],out:['Entregas','Relatório de status semanal'],sys:['Asana','Google Drive'],
+   kp:['% de entrega no prazo','Variação de escopo'],rk:['Aumento de escopo','Conflitos de recursos entre clientes'],
+   st:[['Manter o quadro do projeto e atribuir tarefas semanais.','Gerente de Entrega','Asana'],['Realizar a reunião interna e atualizar o status dos marcos.','Equipe de Entrega','Slack'],['Enviar ao cliente um relatório de status semanal toda sexta-feira.','Gerente de Entrega','E-mail']]},
+  {d:4,n:'Renovação e Revisão de Conta',o:'Priya Nair',r:'Gerente de Sucesso do Cliente',f:'quarterly',s:'draft',deps:[4],
+   p:'Revisar a saúde da conta e garantir renovações ou expansão antes que os contratos expirem.',
+   tr:'90 dias antes da data de término do contrato.',
+   in:['Relatórios de entrega','Dados de uso / satisfação'],out:['Proposta de renovação','Relatório de saúde da conta'],sys:['HubSpot CRM','Asana'],
+   kp:['Retenção líquida de receita','Taxa de renovação'],rk:['Contato de renovação tardio','Problemas de satisfação não resolvidos'],
+   st:[['Reunir os dados de entrega e satisfação da conta.','Gerente de Sucesso do Cliente','HubSpot CRM'],['Realizar uma reunião de revisão e captar a intenção de renovação e os riscos.','Gerente de Sucesso do Cliente','Notas da reunião'],['Repassar oportunidades de expansão para Vendas e registrar o status de renovação.','Gerente de Sucesso do Cliente','HubSpot CRM']]},
+  {d:3,n:'Integração de Colaboradores',o:'Sam Okafor',r:'Operações de Pessoas',f:'adhoc',s:'approved',deps:[],
+   p:'Garantir que novos colaboradores estejam equipados, em conformidade e produtivos desde o primeiro dia.',
+   tr:'Uma carta de oferta assinada é recebida.',
+   in:['Oferta assinada','Lista de verificação do cargo'],out:['Colaborador equipado','Documentos de conformidade concluídos'],sys:['BambooHR','Google Workspace'],
+   kp:['Tempo até a produtividade','Retenção em 30 dias'],rk:['Acessos não prontos no primeiro dia','Documentação de conformidade ausente'],
+   st:[['Provisionar contas, equipamentos e acessos antes da data de início.','Operações de Pessoas','Google Workspace'],['Conduzir a orientação do primeiro dia e designar um padrinho.','Operações de Pessoas','BambooHR'],['Concluir os documentos de conformidade e agendar a revisão de 30 dias.','Operações de Pessoas','BambooHR']]}
+ ]
+};
+const SEED_SUP={
+ en:[{n:'Payment Processor',type:'Vendor'},{n:'Background Check Provider',type:'Vendor'},{n:'E-signature Provider',type:'Vendor'}],
+ es:[{n:'Procesador de Pagos',type:'Proveedor'},{n:'Proveedor de Verificación de Antecedentes',type:'Proveedor'},{n:'Proveedor de Firma Electrónica',type:'Proveedor'}],
+ pt:[{n:'Processador de Pagamentos',type:'Fornecedor'},{n:'Fornecedor de Verificação de Antecedentes',type:'Fornecedor'},{n:'Fornecedor de Assinatura Eletrônica',type:'Fornecedor'}]
+};
+/* [processIndex, supplierIndex, direction] */
+const SEED_SUP_LINKS=[[3,0,'out'],[6,1,'in'],[1,2,'out']];
+const SEED_USERS={
+ en:[{name:'Ana Rivera',role:'gm'},{name:'Devon Clarke',role:'director'},{name:'Maria Reyes',role:'staff'}],
+ es:[{name:'Ana Rivera',role:'gm'},{name:'Devon Clarke',role:'director'},{name:'María Reyes',role:'staff'}],
+ pt:[{name:'Ana Rivera',role:'gm'},{name:'Devon Clarke',role:'director'},{name:'Maria Reyes',role:'staff'}]
+};
+function makeUsers(lang){return (SEED_USERS[lang]||SEED_USERS.en).map(u=>({id:uid(),name:u.name,role:u.role,pin:''}));}
+function seed(lang){
+  const dn=SEED_DEPTS[lang]||SEED_DEPTS.en;
+  DB.departments=dn.map((name,i)=>({id:uid(),name,color:DEPT_COLORS[i]}));
+  const ssrc=SEED_SUP[lang]||SEED_SUP.en;
+  DB.suppliers=ssrc.map(s=>({id:uid(),name:s.n,type:s.type,notes:''}));
+  DB.users=makeUsers(lang);
+  const src=SEED_PROC[lang]||SEED_PROC.en;
+  const ids=src.map(()=>uid());
+  DB.processes=src.map((x,i)=>{
+    const st=x.s==='review'?'submitted':x.s;const ts=Date.now();const appr={};
+    if(st==='approved'){appr.director={by:'Devon Clarke',at:ts};appr.gm={by:'Ana Rivera',at:ts};}
+    return {id:ids[i],name:x.n,departmentId:DB.departments[x.d].id,ownerName:x.o,ownerRole:x.r,backupOwner:'',
+    purpose:x.p,trigger:x.tr,frequency:x.f,status:st,priority:'Medium',
+    inputs:x.in.slice(),outputs:x.out.slice(),systems:x.sys.slice(),kpis:x.kp.slice(),risks:x.rk.slice(),
+    steps:x.st.map(s=>({id:uid(),text:s[0],role:s[1],system:s[2]})),
+    dependsOn:x.deps.map(di=>ids[di]),supplierLinks:[],notes:'',
+    approvals:appr,history:[{by:x.o||'—',role:'staff',action:'act_created',at:ts}],lastEditedBy:{name:x.o||'—',role:'staff'},updatedAt:ts};
+  });
+  SEED_SUP_LINKS.forEach(([pi,si,dir])=>{if(DB.processes[pi]&&DB.suppliers[si])DB.processes[pi].supplierLinks.push({supplierId:DB.suppliers[si].id,dir});});
+}
+function detectLang(){const l=(navigator.language||'en').toLowerCase();if(l.startsWith('es'))return 'es';if(l.startsWith('pt'))return 'pt';return 'en';}
+
+/* ===== INIT ===== */
+(async function init(){
+  const saved=await Store.get();
+  if(saved&&saved.processes&&saved.processes.length){DB=saved;LANG=(saved.meta&&saved.meta.lang)||'en';
+    if(!DB.suppliers)DB.suppliers=[];
+    if(!DB.users||!DB.users.length)DB.users=makeUsers(LANG);
+    DB.processes.forEach(p=>{if(!p.supplierLinks)p.supplierLinks=[];if(p.status==='review')p.status='submitted';if(!p.approvals)p.approvals={};if(!p.history)p.history=[];if(!p.lastEditedBy)p.lastEditedBy=p.ownerName?{name:p.ownerName,role:'staff'}:null;});
+    await save();}
+  else{LANG=detectLang();seed(LANG);DB.meta={lang:LANG};await Store.set(DB);}
+  applyStaticI18n();bind();
+  const lastId=DB.meta&&DB.meta.currentUserId;const u=lastId&&DB.users.find(x=>x.id===lastId);
+  if(u){CURRENT=u;onAuthed();}else{showLogin();}
+})();
+async function save(){DB.meta=DB.meta||{};DB.meta.lang=LANG;if(CURRENT)DB.meta.currentUserId=CURRENT.id;DB.meta.lastSaved=Date.now();await Store.set(DB);}
+
+/* ===== AUTH ===== */
+function onAuthed(){document.getElementById('loginOverlay').classList.remove('show');document.body.style.overflow='';updateUserChip();renderAll();}
+function updateUserChip(){const c=document.getElementById('userChip');if(!CURRENT){c.style.display='none';return;}c.style.display='flex';document.getElementById('ucAvatar').textContent=initials(CURRENT.name);document.getElementById('ucName').textContent=CURRENT.name;document.getElementById('ucRole').textContent=roleLabel(CURRENT.role);document.getElementById('signOutBtn').title=t('sign_out');}
+function showLogin(){const first=!DB.users||!DB.users.length;document.getElementById('loginTitle').textContent=t(first?'login_first_title':'login_title');document.getElementById('loginSub').textContent=t(first?'login_first_sub':'login_sub');document.getElementById('loginBtnLabel').textContent=t(first?'login_create':'login_signin');document.getElementById('loginHint').textContent=first?'':t('login_hint');document.getElementById('loginErr').textContent='';renderLoginFields();document.getElementById('loginOverlay').classList.add('show');document.body.style.overflow='hidden';}
+function renderLoginFields(){const wrap=document.getElementById('loginFields');const first=!DB.users||!DB.users.length;
+  if(first){wrap.innerHTML=`<label>${t('login_select_user')}</label><input id="liName" placeholder="${esc(t('login_name_ph'))}"><label>${t('user_role')}</label><select id="liRole">${ROLES.map(r=>`<option value="${r}">${esc(roleLabel(r))}</option>`).join('')}</select>`;}
+  else{wrap.innerHTML=`<label>${t('login_select_user')}</label><select id="liUser"><option value="">—</option>${DB.users.map(u=>`<option value="${u.id}">${esc(u.name)} · ${esc(roleLabel(u.role))}</option>`).join('')}</select><div id="liPinWrap"></div>`;
+    const sel=document.getElementById('liUser');sel.addEventListener('change',()=>{const u=DB.users.find(x=>x.id===sel.value);const pw=document.getElementById('liPinWrap');pw.innerHTML=(u&&u.pin)?`<label>${t('login_pin')}</label><input id="liPin" type="password" inputmode="numeric" autocomplete="off">`:'';});}
+}
+function doLogin(){const errEl=document.getElementById('loginErr');errEl.textContent='';const first=!DB.users||!DB.users.length;
+  if(first){const name=(document.getElementById('liName').value||'').trim();if(!name){errEl.textContent=t('login_err_name');return;}const role=document.getElementById('liRole').value;const u={id:uid(),name,role,pin:''};DB.users=[u];CURRENT=u;save();onAuthed();return;}
+  const sel=document.getElementById('liUser');const u=DB.users.find(x=>x.id===sel.value);if(!u){errEl.textContent=t('login_err_select');return;}
+  if(u.pin){const pe=document.getElementById('liPin');const pin=(pe?pe.value:'')||'';if(pin!==u.pin){errEl.textContent=t('login_err_pin');return;}}
+  CURRENT=u;save();onAuthed();
+}
+function signOut(){CURRENT=null;if(DB.meta)DB.meta.currentUserId=null;Store.set(DB);showLogin();}
+function fmtDate(ts){return new Date(ts||Date.now()).toLocaleDateString(LOCALE[LANG],{year:'numeric',month:'short',day:'numeric'});}
+function logHistory(p,actionKey){p.history=p.history||[];p.history.unshift({by:CURRENT?CURRENT.name:'—',role:CURRENT?CURRENT.role:'staff',action:actionKey,at:Date.now()});if(p.history.length>30)p.history.length=30;p.lastEditedBy={name:CURRENT?CURRENT.name:'—',role:CURRENT?CURRENT.role:'staff'};p.updatedAt=Date.now();}
+
+/* ===== APPLY STATIC I18N ===== */
+function applyStaticI18n(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t(el.getAttribute('data-i18n'));});
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=t(el.getAttribute('data-i18n-ph'));});
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{el.title=t(el.getAttribute('data-i18n-title'));});
+  document.querySelectorAll('#langsel button').forEach(b=>b.classList.toggle('active',b.dataset.lang===LANG));
+}
+function setLang(l){if(l===LANG)return;LANG=l;applyStaticI18n();renderAll();updateUserChip();save();
+  if(document.getElementById('drawer').classList.contains('show'))renderForm();
+  if(document.getElementById('docOverlay').classList.contains('show'))closeDoc();
+  if(document.getElementById('mgrOverlay').classList.contains('show')&&mgrMode)openMgr(mgrMode);
+  if(document.getElementById('loginOverlay').classList.contains('show'))showLogin();
+}
+
+/* ===== RENDER ===== */
+function renderAll(){renderDash();fillDeptFilters();renderProcesses();renderMap();renderLibrary();}
+
+function renderDash(){
+  const P=DB.processes,total=P.length;
+  const approved=P.filter(p=>p.status==='approved').length;
+  const noOwner=P.filter(p=>!p.ownerName||!p.ownerName.trim()).length;
+  const noSteps=P.filter(p=>!p.steps||!p.steps.length).length;
+  const crossLinks=P.reduce((a,p)=>a+(p.dependsOn||[]).filter(d=>{const u=proc(d);return u&&u.departmentId!==p.departmentId;}).length,0);
+  const orphans=P.filter(p=>!(p.dependsOn||[]).length&&!downstream(p.id).length).length;
+  const stats=[
+    {k:total,l:t('stat_processes'),ic:'<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="3.5" cy="6" r="1.2"/><circle cx="3.5" cy="12" r="1.2"/><circle cx="3.5" cy="18" r="1.2"/>'},
+    {k:DB.departments.length,l:t('stat_departments'),ic:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'},
+    {k:crossLinks,l:t('stat_handoffs'),ic:'<circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="18" r="2.2"/><path d="M7 7l10 9"/>'},
+    {k:approved,l:t('stat_approved'),ic:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>'}
+  ];
+  document.getElementById('statGrid').innerHTML=stats.map(s=>`<div class="card stat"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${s.ic}</svg></div><div class="k">${s.k}</div><div class="lbl">${s.l}</div></div>`).join('');
+  let score=0;
+  if(total){let pts=0;P.forEach(p=>{let c=0;if(p.ownerName&&p.ownerName.trim())c+=20;if(p.purpose&&p.purpose.trim())c+=15;if(p.steps&&p.steps.length)c+=30;if((p.inputs&&p.inputs.length)||(p.outputs&&p.outputs.length))c+=15;if(p.status==='approved')c+=20;else if(p.status==='dir_approved')c+=14;else if(p.status==='submitted')c+=8;pts+=c;});score=Math.round(pts/total);}
+  document.getElementById('readyRing').style.setProperty('--p',score);
+  document.getElementById('readyVal').innerHTML=score+'<small>%</small>';
+  document.getElementById('readyBreak').innerHTML=`${t('ready_approved',approved,total)}<br>${t('ready_steps',total-noSteps,total)}<br>${t('ready_owner',total-noOwner,total)}`;
+  const checks=[];
+  checks.push(noOwner?{t:'bad',h:t('chk_owner_bad',noOwner,noun(noOwner,'proc')),d:t('chk_owner_bad_d'),n:noOwner}:{t:'good',h:t('chk_owner_good'),d:t('chk_owner_good_d'),n:'✓'});
+  checks.push(noSteps?{t:'warn',h:t('chk_steps_bad',noSteps,noun(noSteps,'proc')),d:t('chk_steps_bad_d'),n:noSteps}:{t:'good',h:t('chk_steps_good'),d:t('chk_steps_good_d'),n:'✓'});
+  const pending=total-approved;
+  checks.push(pending?{t:'warn',h:t('chk_pending',pending,noun(pending,'sop')),d:t('chk_pending_d'),n:pending}:{t:'good',h:t('chk_pending_good'),d:t('chk_pending_good_d'),n:'✓'});
+  checks.push(orphans?{t:'warn',h:t('chk_orphan',orphans,noun(orphans,'proc')),d:t('chk_orphan_d'),n:orphans}:{t:'good',h:t('chk_orphan_good'),d:t('chk_orphan_good_d'),n:'✓'});
+  const emptyDepts=DB.departments.filter(d=>!P.some(p=>p.departmentId===d.id)).length;
+  if(emptyDepts)checks.push({t:'warn',h:t('chk_emptydept',emptyDepts,noun(emptyDepts,'dept')),d:t('chk_emptydept_d'),n:emptyDepts});
+  document.getElementById('checks').innerHTML=checks.map(c=>`<div class="check ${c.t}"><div class="ci">${c.t==='good'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>':c.t==='bad'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M10.3 3.5 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.5a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>'}</div><div class="ctext"><div class="h">${esc(c.h)}</div><div class="d">${esc(c.d)}</div></div><div class="num">${c.n}</div></div>`).join('');
+  const max=Math.max(1,...DB.departments.map(d=>P.filter(p=>p.departmentId===d.id).length));
+  document.getElementById('deptBars').innerHTML=DB.departments.map(d=>{const list=P.filter(p=>p.departmentId===d.id);const n=list.length;const app=list.filter(p=>p.status==='approved').length;return `<div class="bar"><div class="row"><span class="dept-name"><span class="dot" style="background:${d.color}"></span>${esc(d.name)}</span><span class="cnt">${t('dept_bar_count',n,noun(n,'proc'),app)}</span></div><div class="track"><div class="fill" style="width:${n/max*100}%;background:${d.color}"></div></div></div>`;}).join('')||`<div class="empty">${t('no_processes')}</div>`;
+}
+
+function fillDeptFilters(){const sel=document.getElementById('filterDept');const cur=sel.value;sel.innerHTML=`<option value="">${t('all_departments')}</option>`+DB.departments.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('');sel.value=cur;}
+function renderProcesses(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const fd=document.getElementById('filterDept').value,fs=document.getElementById('filterStatus').value;
+  let list=DB.processes.filter(p=>{if(fd&&p.departmentId!==fd)return false;if(fs&&p.status!==fs)return false;if(q&&!(p.name.toLowerCase().includes(q)||(p.ownerName||'').toLowerCase().includes(q)))return false;return true;});
+  const body=document.getElementById('procBody');
+  if(!list.length){body.innerHTML=`<tr><td colspan="7"><div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><div>${t('empty_filter')}</div></div></td></tr>`;return;}
+  body.innerHTML=list.map(p=>{const d=dept(p.departmentId);const up=(p.dependsOn||[]).length,down=downstream(p.id).length;const slen=(p.steps||[]).length;const purp=(p.purpose||t('no_purpose_short'));
+    return `<tr>
+      <td><div class="pname" onclick="openEditor('${p.id}')">${esc(p.name)}</div><div class="pmeta">${t('step_count',slen,noun(slen,'step'))} · ${esc(purp.slice(0,52))}${purp.length>52?'…':''}</div>${p.lastEditedBy&&p.lastEditedBy.name?`<div class="lastedit">${esc(t('lastedit',p.lastEditedBy.name,fmtDate(p.updatedAt)))}</div>`:''}</td>
+      <td>${d?`<span class="tag dept"><span class="dot" style="background:${d.color}"></span>${esc(d.name)}</span>`:'<span class="pmeta">—</span>'}</td>
+      <td><div class="owner-cell"><div class="avatar ${p.ownerName?'':'none'}">${p.ownerName?esc(initials(p.ownerName)):'?'}</div><div><div style="font-weight:600;font-size:13px">${esc(p.ownerName||t('unassigned'))}</div><div class="pmeta">${esc(p.ownerRole||'')}</div></div></div></td>
+      <td><span class="pmeta" style="font-size:13px;color:var(--cream-dim)">${esc(freqLabel(p.frequency))}</span></td>
+      <td><span class="pmeta" style="font-size:12.5px">↑${up} &nbsp;↓${down}</span></td>
+      <td><span class="status ${p.status}">${statusLabel(p.status)}</span></td>
+      <td><div class="row-act">
+        <button class="icon-btn" title="${esc(t('view_sop'))}" onclick="openDoc('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg></button>
+        <button class="icon-btn" title="${esc(t('edit'))}" onclick="openEditor('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+        <button class="icon-btn del" title="${esc(t('delete'))}" onclick="delProc('${p.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+      </div></td></tr>`;}).join('');
+}
+function delProc(id){const p=proc(id);if(!p)return;if(!confirm(t('del_confirm',p.name)))return;DB.processes=DB.processes.filter(x=>x.id!==id);DB.processes.forEach(x=>{x.dependsOn=(x.dependsOn||[]).filter(d=>d!==id);});save();renderAll();toast(t('toast_deleted'));}
+
+function renderMap(){
+  const deptLanes=DB.departments.map(d=>{const list=DB.processes.filter(p=>p.departmentId===d.id);
+    return `<div class="lane" data-dept="${d.id}"><div class="lane-head"><span class="dot" style="background:${d.color}"></span>${esc(d.name)}<span class="lcount">${list.length}</span></div>
+      ${list.map(p=>{const dn=dept(p.departmentId);return `<div class="node" id="node-${p.id}" data-id="${p.id}" onclick="mapClick('${p.id}')"><span class="ndot" style="background:${dn?dn.color:'#888'}"></span><div class="nname">${esc(p.name)}</div><div class="nfoot"><span class="nowner"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0 1 14 0"/></svg>${esc(p.ownerName||t('unassigned'))}</span><span class="status ${p.status}" style="padding:2px 8px;font-size:10px"></span></div></div>`;}).join('')||`<div style="font-size:12px;color:var(--cream-faint);padding:8px 4px">${t('no_processes')}</div>`}
+    </div>`;}).join('');
+  const sups=DB.suppliers||[];
+  const extLane=`<div class="lane ext" data-ext="1"><div class="lane-head"><span class="dot" style="background:var(--warn)"></span>${t('mgr_sup_title')}<span class="lcount">${sups.length}</span></div>
+    ${sups.length?sups.map(s=>{const linked=DB.processes.filter(p=>(p.supplierLinks||[]).some(l=>l.supplierId===s.id)).length;return `<div class="node ext" id="snode-${s.id}" data-sid="${s.id}" onclick="supClick('${s.id}')"><span class="ndot"></span><div class="ext-badge">${t('ext_badge')}</div><div class="nname">${esc(s.name)}</div>${s.type?`<div class="ntype">${esc(s.type)}</div>`:''}<div class="nfoot"><span class="nowner">↔ ${linked}</span></div></div>`;}).join(''):`<div style="font-size:12px;color:var(--cream-faint);padding:8px 4px">${t('mgr_sup_empty')}</div>`}
+  </div>`;
+  document.getElementById('lanes').innerHTML=deptLanes+extLane;
+  requestAnimationFrame(()=>drawLinks());
+}
+function drawLinks(){
+  const svg=document.getElementById('mapLinks'),scroll=document.getElementById('mapScroll');if(!scroll)return;
+  const base=scroll.getBoundingClientRect(),W=scroll.scrollWidth,H=scroll.scrollHeight;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.style.width=W+'px';svg.style.height=H+'px';
+  let paths='';
+  DB.processes.forEach(p=>{(p.dependsOn||[]).forEach(uid=>{const a=document.getElementById('node-'+uid),b=document.getElementById('node-'+p.id);if(!a||!b)return;
+    const ra=a.getBoundingClientRect(),rb=b.getBoundingClientRect();
+    const x1=ra.right-base.left+scroll.scrollLeft,y1=ra.top+ra.height/2-base.top+scroll.scrollTop;
+    const x2=rb.left-base.left+scroll.scrollLeft,y2=rb.top+rb.height/2-base.top+scroll.scrollTop;
+    const u=proc(uid),cross=u&&u.departmentId!==p.departmentId,active=mapHL&&(mapHL===uid||mapHL===p.id);
+    const col=cross?'#FF4948':'rgba(244,244,244,.32)',w=active?2.6:(cross?1.8:1.4),op=mapHL?(active?1:.12):(cross?.9:.55),mx=(x1+x2)/2;
+    paths+=`<path d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" stroke="${col}" stroke-width="${w}" opacity="${op}" stroke-linecap="round"/><circle cx="${x2}" cy="${y2}" r="${active?4:3}" fill="${col}" opacity="${op}"/>`;});});
+  DB.processes.forEach(p=>{(p.supplierLinks||[]).forEach(l=>{const sN=document.getElementById('snode-'+l.supplierId),pN=document.getElementById('node-'+p.id);if(!sN||!pN)return;
+    const rs=sN.getBoundingClientRect(),rp=pN.getBoundingClientRect();
+    const px=rp.right-base.left+scroll.scrollLeft,py=rp.top+rp.height/2-base.top+scroll.scrollTop;
+    const sx=rs.left-base.left+scroll.scrollLeft,sy=rs.top+rs.height/2-base.top+scroll.scrollTop;
+    const active=mapHL&&(mapHL===p.id||mapHL===l.supplierId);
+    const col='#FFB454',w=active?2.6:1.6,op=mapHL?(active?1:.12):.75,mx=(px+sx)/2;
+    paths+=`<path d="M${px},${py} C${mx},${py} ${mx},${sy} ${sx},${sy}" fill="none" stroke="${col}" stroke-width="${w}" opacity="${op}" stroke-dasharray="5 4" stroke-linecap="round"/>`;
+    if(l.dir==='out'||l.dir==='both')paths+=`<circle cx="${sx}" cy="${sy}" r="${active?4:3}" fill="${col}" opacity="${op}"/>`;
+    if(l.dir==='in'||l.dir==='both')paths+=`<circle cx="${px}" cy="${py}" r="${active?4:3}" fill="${col}" opacity="${op}"/>`;});});
+  svg.innerHTML=paths;
+}
+function mapClick(id){mapHL=(mapHL===id)?null:id;applyMapHL();}
+function supClick(id){mapHL=(mapHL===id)?null:id;applyMapHL();}
+function applyMapHL(){document.querySelectorAll('.node').forEach(n=>n.classList.remove('hl','dim'));if(mapHL){const rel=new Set([mapHL]);const ap=proc(mapHL);if(ap){(ap.dependsOn||[]).forEach(d=>rel.add(d));downstream(mapHL).forEach(p=>rel.add(p.id));(ap.supplierLinks||[]).forEach(l=>rel.add(l.supplierId));}else{DB.processes.forEach(p=>{if((p.supplierLinks||[]).some(l=>l.supplierId===mapHL))rel.add(p.id);});}document.querySelectorAll('.node').forEach(n=>{const i=n.dataset.id||n.dataset.sid;if(i===mapHL)n.classList.add('hl');else if(!rel.has(i))n.classList.add('dim');});}drawLinks();}
+
+function renderLibrary(){
+  const grid=document.getElementById('libGrid');
+  if(!DB.processes.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h11l5 5v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg><div>${t('lib_empty')}</div></div>`;return;}
+  grid.innerHTML=DB.processes.map(p=>{const d=dept(p.departmentId);const slen=(p.steps||[]).length;
+    return `<div class="card lib-card" onclick="openDoc('${p.id}')"><div class="lc-top"><div class="lc-name">${esc(p.name)}</div><span class="status ${p.status}" style="font-size:10px;padding:3px 8px">${statusLabel(p.status)}</span></div><div class="lc-purpose">${esc(p.purpose||t('doc_purpose_empty'))}</div><div class="lc-foot"><span>${d?`<span class="dot" style="display:inline-block;background:${d.color};margin-right:6px"></span>`+esc(d.name):'—'}</span><span>${t('step_count',slen,noun(slen,'step'))}</span></div></div>`;}).join('');
+}
+
+/* ===== SOP DOCUMENT ===== */
+const LOGO_SVG='<svg width="26" height="42" viewBox="0 0 30 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9" cy="6" r="6" fill="#FF4948"/><circle cx="21" cy="16.5" r="6" fill="#FF4948"/><circle cx="11" cy="27" r="6" fill="#FF4948"/><circle cx="8" cy="38" r="6" fill="#FF4948"/><circle cx="19" cy="44" r="4" fill="#FF4948"/><path d="M11 9 L19 13 M19 21 L13 24 M11 31 L9 34 M9.5 42 L17 43.5" stroke="#FF4948" stroke-width="2.4" stroke-linecap="round"/></svg>';
+function brandHeader(typeKey,name){return `<div class="doc-header">${LOGO_SVG}<div class="divider"></div><div class="dw"><div class="l1">Global 1080</div><div class="l2">Business Solutions</div></div><div class="doctype"><div class="dt">${t(typeKey)}</div><div class="dn">${esc(name)}</div></div></div>`;}
+function listBlock(titleKey,arr,emptyKey){return `<div class="doc-section"><h4>${t(titleKey)}</h4>${arr&&arr.length?`<ul class="doc-list">${arr.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:`<p class="doc-empty-note">${t(emptyKey)}</p>`}</div>`;}
+function relRow(labelKey,p,cross){const d=dept(p.departmentId);return `<div class="fr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><b>${t(labelKey)}:</b> ${esc(p.name)}</span><span class="fd">${d?esc(d.name):''}${cross?' · ⇄':''}</span></div>`;}
+function sopBody(p){
+  const d=dept(p.departmentId);
+  const ups=(p.dependsOn||[]).map(id=>proc(id)).filter(Boolean);
+  const downs=downstream(p.id);
+  const dateStr=new Date(p.updatedAt||Date.now()).toLocaleDateString(LOCALE[LANG],{year:'numeric',month:'long',day:'numeric'});
+  return `<div class="doc-body">
+    <div class="doc-title">${esc(p.name)}</div>
+    <div class="doc-meta-grid">
+      <div class="mc"><div class="ml">${t('th_department')}</div><div class="mv">${d?esc(d.name):'—'}</div></div>
+      <div class="mc"><div class="ml">${t('doc_owner')}</div><div class="mv">${esc(p.ownerName||t('unassigned'))}</div></div>
+      <div class="mc"><div class="ml">${t('doc_freq')}</div><div class="mv">${esc(freqLabel(p.frequency))}</div></div>
+      <div class="mc"><div class="ml">${t('doc_status')}</div><div class="mv">${statusLabel(p.status)}</div></div>
+    </div>
+    <div class="doc-section"><h4>${t('doc_purpose')}</h4><p>${p.purpose?esc(p.purpose):`<span class="doc-empty-note">${t('doc_purpose_empty')}</span>`}</p></div>
+    <div class="doc-section"><h4>${t('doc_trigger')}</h4><p>${p.trigger?esc(p.trigger):`<span class="doc-empty-note">${t('doc_trigger_empty')}</span>`}</p></div>
+    <div class="doc-2col">
+      ${listBlock('doc_inputs',p.inputs,'doc_inputs_empty')}
+      ${listBlock('doc_outputs',p.outputs,'doc_outputs_empty')}
+    </div>
+    <div class="doc-section"><h4>${t('doc_procedure')}</h4>
+      ${p.steps&&p.steps.length?`<div class="doc-steps">${p.steps.map(s=>`<div class="doc-step"><div class="dsn"></div><div class="dsc"><div class="dst">${esc(s.text)}</div><div class="dsm">${s.role?`<span><b>${t('doc_responsible')}:</b> ${esc(s.role)}</span>`:''}${s.system?`<span><b>${t('doc_system')}:</b> ${esc(s.system)}</span>`:''}</div></div></div>`).join('')}</div>`:`<p class="doc-empty-note">${t('doc_proc_empty')}</p>`}
+    </div>
+    ${listBlock('doc_systems',p.systems,'doc_systems_empty')}
+    <div class="doc-section"><h4>${t('doc_relationships')}</h4>
+      ${(ups.length||downs.length)?`<div class="flow-rel">
+        ${ups.map(u=>relRow('doc_receives',u,u.departmentId!==p.departmentId)).join('')}
+        ${downs.map(dn=>relRow('doc_handsto',dn,dn.departmentId!==p.departmentId)).join('')}
+      </div>`:`<p class="doc-empty-note">${t('doc_rel_empty')}</p>`}
+    </div>
+    ${(p.supplierLinks&&p.supplierLinks.length)?`<div class="doc-section"><h4>${t('doc_suppliers')}</h4><div class="flow-rel">${p.supplierLinks.map(l=>{const s=supplier(l.supplierId);if(!s)return '';const lab=l.dir==='in'?t('doc_sup_in'):l.dir==='out'?t('doc_sup_out'):t('doc_sup_both');return `<div class="fr ext"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg><span><b>${esc(lab)}:</b> ${esc(s.name)}</span><span class="fd">${esc(s.type||'')}</span></div>`;}).join('')}</div></div>`:''}
+    <div class="doc-2col">
+      ${listBlock('doc_kpis',p.kpis,'doc_kpis_empty')}
+      ${listBlock('doc_risks',p.risks,'doc_risks_empty')}
+    </div>
+    ${p.notes?`<div class="doc-section"><h4>${t('doc_notes')}</h4><p>${esc(p.notes)}</p></div>`:''}
+    <div class="doc-section"><h4>${t('sig_title')}</h4><div class="sig-grid">
+      <div class="sig-cell"><div class="sig-role">${t('sig_director')}</div><div class="sig-name ${(p.approvals&&p.approvals.director)?'':'sig-pending'}">${(p.approvals&&p.approvals.director)?esc(p.approvals.director.by):t('sig_pending')}</div><div class="sig-date">${(p.approvals&&p.approvals.director)?fmtDate(p.approvals.director.at):''}</div></div>
+      <div class="sig-cell"><div class="sig-role">${t('sig_gm')}</div><div class="sig-name ${(p.approvals&&p.approvals.gm)?'':'sig-pending'}">${(p.approvals&&p.approvals.gm)?esc(p.approvals.gm.by):t('sig_pending')}</div><div class="sig-date">${(p.approvals&&p.approvals.gm)?fmtDate(p.approvals.gm.at):''}</div></div>
+    </div></div>
+  </div>
+  <div class="doc-footer"><span>${t('doc_footer_sop')}</span><span>${t('doc_footer_owner',esc(p.ownerName||'—'),dateStr)}</span></div>`;
+}
+function openDoc(id){const p=proc(id);if(!p)return;document.getElementById('sopDoc').innerHTML=brandHeader('doc_type_sop',p.name)+sopBody(p);document.getElementById('docOverlay').classList.add('show');document.body.style.overflow='hidden';}
+function openFullManual(){
+  if(!DB.processes.length){toast(t('toast_no_compile'));return;}
+  const dateStr=new Date().toLocaleDateString(LOCALE[LANG],{year:'numeric',month:'long',day:'numeric'});
+  let html=brandHeader('doc_type_manual',t('doc_manual_name'));
+  html+=`<div class="doc-body"><div class="doc-title">${t('doc_manual_title')}</div><p style="color:#3a3744;font-size:14px;margin:14px 0 26px;line-height:1.6">${t('doc_manual_intro',DB.processes.length,DB.departments.length,dateStr)}</p>`;
+  html+=`<div class="doc-section"><h4>${t('doc_contents')}</h4><ul class="doc-list">`;
+  DB.departments.forEach(d=>{const list=DB.processes.filter(p=>p.departmentId===d.id);if(list.length)html+=`<li><b>${esc(d.name)}</b> — ${list.map(p=>esc(p.name)).join(', ')}</li>`;});
+  html+=`</ul></div></div>`;
+  DB.departments.forEach(d=>{const list=DB.processes.filter(p=>p.departmentId===d.id);
+    list.forEach(p=>{html+=`<div class="sop-page" style="border-top-color:${d.color}">`+sopBody(p)+`</div>`;});});
+  document.getElementById('sopDoc').innerHTML=html;document.getElementById('docOverlay').classList.add('show');document.body.style.overflow='hidden';
+}
+function closeDoc(){document.getElementById('docOverlay').classList.remove('show');document.body.style.overflow='';}
+
+/* ===== EDITOR ===== */
+function blank(){return {id:null,name:'',departmentId:DB.departments[0]?DB.departments[0].id:'',ownerName:'',ownerRole:'',backupOwner:'',purpose:'',trigger:'',frequency:'weekly',status:'draft',priority:'Medium',inputs:[],outputs:[],systems:[],kpis:[],risks:[],steps:[],dependsOn:[],supplierLinks:[],notes:'',approvals:{},history:[],lastEditedBy:null};}
+function openEditor(id){editingId=id||null;const p=id?proc(id):null;draft=p?JSON.parse(JSON.stringify(p)):blank();renderForm();document.getElementById('overlay').classList.add('show');document.getElementById('drawer').classList.add('show');document.body.style.overflow='hidden';}
+function closeEditor(){document.getElementById('overlay').classList.remove('show');document.getElementById('drawer').classList.remove('show');document.body.style.overflow='';editingId=null;draft=null;}
+function renderForm(){
+  if(!draft)return;
+  document.getElementById('drawerEyebrow').textContent=editingId?t('ed_edit_eyebrow'):t('ed_new_eyebrow');
+  document.getElementById('drawerTitle').textContent=editingId?draft.name||t('ed_edit_eyebrow'):t('ed_new_title');
+  const deptOpts=DB.departments.map(d=>`<option value="${d.id}" ${draft.departmentId===d.id?'selected':''}>${esc(d.name)}</option>`).join('');
+  const freqOpts=FREQ.map(f=>`<option value="${f}" ${draft.frequency===f?'selected':''}>${esc(freqLabel(f))}</option>`).join('');
+  const stageBadge=`<span class="status ${draft.status}">${statusLabel(draft.status)}</span>`;
+  document.getElementById('drawerBody').innerHTML=`
+    <div class="fgroup"><label>${t('lbl_name')}</label><input class="fi" id="f_name" value="${esc(draft.name)}" placeholder="${esc(t('ph_name'))}"></div>
+    <div class="f2">
+      <div class="fgroup"><label>${t('lbl_department')}</label><select class="fi" id="f_dept">${deptOpts}</select></div>
+      <div class="fgroup"><label>${t('lbl_frequency')}</label><select class="fi" id="f_freq">${freqOpts}</select></div>
+    </div>
+    <div class="f2">
+      <div class="fgroup"><label>${t('lbl_owner')}</label><input class="fi" id="f_owner" value="${esc(draft.ownerName)}" placeholder="${esc(t('ph_owner'))}"></div>
+      <div class="fgroup"><label>${t('lbl_role')}</label><input class="fi" id="f_role" value="${esc(draft.ownerRole)}" placeholder="${esc(t('ph_role'))}"></div>
+    </div>
+    <div class="f2">
+      <div class="fgroup"><label>${t('lbl_backup')}</label><input class="fi" id="f_backup" value="${esc(draft.backupOwner)}" placeholder="${esc(t('ph_optional'))}"></div>
+      <div class="fgroup"><label>${t('lbl_stage')}</label><div style="margin-top:2px">${stageBadge}</div></div>
+    </div>
+    <div class="fgroup"><label>${t('lbl_purpose')}</label><div class="hint">${t('hint_purpose')}</div><textarea class="fi" id="f_purpose" placeholder="${esc(t('ph_purpose'))}">${esc(draft.purpose)}</textarea></div>
+    <div class="fgroup"><label>${t('lbl_trigger')}</label><div class="hint">${t('hint_trigger')}</div><textarea class="fi" id="f_trigger" placeholder="${esc(t('ph_trigger'))}">${esc(draft.trigger)}</textarea></div>
+    <div class="section-divider"><span class="sd-t">${t('sec_steps')}</span><span class="sd-line"></span></div>
+    <div id="stepList"></div>
+    <button class="btn sm" onclick="addStep()" style="margin-top:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>${t('add_step')}</button>
+    <div class="section-divider"><span class="sd-t">${t('sec_io')}</span><span class="sd-line"></span></div>
+    ${chipField('inputs','lbl_inputs','ph_inputs')}
+    ${chipField('outputs','lbl_outputs','ph_outputs')}
+    ${chipField('systems','lbl_systems','ph_systems')}
+    <div class="section-divider"><span class="sd-t">${t('sec_rel')}</span><span class="sd-line"></span></div>
+    <div class="fgroup"><label>${t('lbl_depends')}</label><div class="hint">${t('hint_depends')}</div><div class="dep-list" id="depList"></div></div>
+    <div class="fgroup"><label>${t('lbl_suppliers')}</label><div class="hint">${t('hint_suppliers')}</div><div id="supLinks"></div><div id="supAddWrap"></div></div>
+    <div class="section-divider"><span class="sd-t">${t('sec_gov')}</span><span class="sd-line"></span></div>
+    ${chipField('kpis','lbl_kpis','ph_kpis')}
+    ${chipField('risks','lbl_risks','ph_risks')}
+    <div class="fgroup"><label>${t('lbl_notes')}</label><textarea class="fi" id="f_notes" placeholder="${esc(t('ph_notes'))}">${esc(draft.notes)}</textarea></div>
+    <div class="section-divider"><span class="sd-t">${t('appr_title')}</span><span class="sd-line"></span></div>
+    <div id="apprBox"></div>
+    <div class="section-divider"><span class="sd-t">${t('hist_title')}</span><span class="sd-line"></span></div>
+    <div id="histBox"></div>
+  `;
+  renderSteps();renderChips('inputs');renderChips('outputs');renderChips('systems');renderChips('kpis');renderChips('risks');renderDeps();renderSupLinks();renderApproval();renderHistory();
+  ['name','dept','owner','role','backup','purpose','trigger','notes','freq'].forEach(f=>{const map={name:'name',dept:'departmentId',owner:'ownerName',role:'ownerRole',backup:'backupOwner',purpose:'purpose',trigger:'trigger',notes:'notes',freq:'frequency'};const el=document.getElementById('f_'+f);if(el)el.addEventListener('input',()=>{draft[map[f]]=el.value;});});
+}
+function chipField(key,labelKey,phKey){return `<div class="fgroup"><label>${t(labelKey)}</label><div class="chips" id="chips_${key}"></div><div class="chip-input"><input class="mini-i" id="ci_${key}" placeholder="${esc(t(phKey))}" onkeydown="if(event.key==='Enter'){event.preventDefault();addChip('${key}')}"><button class="btn sm" onclick="addChip('${key}')">${t('btn_add')}</button></div></div>`;}
+function renderChips(key){const c=document.getElementById('chips_'+key);if(!c)return;const arr=draft[key]||[];c.innerHTML=arr.map((x,i)=>`<span class="chip">${esc(x)}<button onclick="rmChip('${key}',${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>`).join('');}
+function addChip(key){const inp=document.getElementById('ci_'+key);const v=inp.value.trim();if(!v)return;draft[key]=draft[key]||[];draft[key].push(v);inp.value='';renderChips(key);inp.focus();}
+function rmChip(key,i){draft[key].splice(i,1);renderChips(key);}
+function renderSteps(){const c=document.getElementById('stepList');if(!c)return;const steps=draft.steps||[];
+  c.innerHTML=steps.map((s,i)=>`<div class="step"><div class="snum">${i+1}</div><div class="sfields"><textarea class="mini-i" placeholder="${esc(t('ph_step'))}" oninput="draft.steps[${i}].text=this.value" rows="2">${esc(s.text)}</textarea><div class="srow2"><input class="mini-i" placeholder="${esc(t('ph_step_role'))}" value="${esc(s.role||'')}" oninput="draft.steps[${i}].role=this.value"><input class="mini-i" placeholder="${esc(t('ph_step_system'))}" value="${esc(s.system||'')}" oninput="draft.steps[${i}].system=this.value"></div></div><div class="sctrl"><button onclick="moveStep(${i},-1)" ${i===0?'disabled style=opacity:.3':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button><button onclick="moveStep(${i},1)" ${i===steps.length-1?'disabled style=opacity:.3':''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><button onclick="rmStep(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2m1 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div></div>`).join('');
+}
+function addStep(){draft.steps=draft.steps||[];draft.steps.push({id:uid(),text:'',role:'',system:''});renderSteps();}
+function rmStep(i){draft.steps.splice(i,1);renderSteps();}
+function moveStep(i,dir){const j=i+dir;if(j<0||j>=draft.steps.length)return;const s=draft.steps;[s[i],s[j]]=[s[j],s[i]];renderSteps();}
+function renderDeps(){const c=document.getElementById('depList');if(!c)return;const others=DB.processes.filter(p=>p.id!==editingId);
+  if(!others.length){c.innerHTML=`<div style="padding:10px;font-size:12.5px;color:var(--cream-faint)">${t('depends_empty')}</div>`;return;}
+  c.innerHTML=others.map(p=>{const d=dept(p.departmentId);const on=(draft.dependsOn||[]).includes(p.id);return `<label class="dep-item"><input type="checkbox" ${on?'checked':''} onchange="toggleDep('${p.id}',this.checked)"><span><span class="di-name">${esc(p.name)}</span> <span class="di-dept">· ${d?esc(d.name):''}</span></span></label>`;}).join('');
+}
+function toggleDep(id,on){draft.dependsOn=draft.dependsOn||[];if(on){if(!draft.dependsOn.includes(id))draft.dependsOn.push(id);}else{draft.dependsOn=draft.dependsOn.filter(x=>x!==id);}}
+function renderSupLinks(){
+  const c=document.getElementById('supLinks'),w=document.getElementById('supAddWrap');if(!c||!w)return;
+  const links=draft.supplierLinks||[];
+  c.innerHTML=links.map((l,i)=>{const s=supplier(l.supplierId);if(!s)return '';return `<div class="sup-link"><span class="sl-name">${esc(s.name)}${s.type?` <span style="color:var(--cream-faint);font-weight:500">· ${esc(s.type)}</span>`:''}</span><select onchange="setSupDir(${i},this.value)"><option value="in" ${l.dir==='in'?'selected':''}>${esc(t('dir_in'))}</option><option value="out" ${l.dir==='out'?'selected':''}>${esc(t('dir_out'))}</option><option value="both" ${l.dir==='both'?'selected':''}>${esc(t('dir_both'))}</option></select><button class="icon-btn del" onclick="rmSupLink(${i})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`;}).join('');
+  if(!(DB.suppliers||[]).length){w.innerHTML=`<div class="mgr-empty">${t('suppliers_none')} <button class="btn sm" onclick="openSupplierMgr()" style="margin-left:6px">${t('manage_suppliers')}</button></div>`;return;}
+  const used=new Set(links.map(l=>l.supplierId));
+  const avail=(DB.suppliers||[]).filter(s=>!used.has(s.id));
+  w.innerHTML=`<div class="sup-add"><select id="supPick"><option value="">${t('sup_pick')}</option>${avail.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('')}</select><button class="btn sm" onclick="addSupLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>${t('btn_add')}</button></div>`;
+}
+function addSupLink(){const sel=document.getElementById('supPick');const id=sel&&sel.value;if(!id)return;draft.supplierLinks=draft.supplierLinks||[];draft.supplierLinks.push({supplierId:id,dir:'in'});renderSupLinks();}
+function rmSupLink(i){draft.supplierLinks.splice(i,1);renderSupLinks();}
+function setSupDir(i,v){draft.supplierLinks[i].dir=v;}
+function renderApproval(){
+  const c=document.getElementById('apprBox');if(!c||!draft)return;
+  const order=['draft','submitted','dir_approved','approved'];const cur=order.indexOf(draft.status);
+  const steps=order.map((k,i)=>`<span class="appr-step ${i<cur?'done':''} ${i===cur?'current':''}"><span class="as-dot"></span>${statusLabel(k)}</span>`).join('<span class="appr-arrow">→</span>');
+  const a=draft.approvals||{};let stamps='';
+  if(a.director)stamps+=`<div class="appr-stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg><span><b>${t('appr_director_label')}:</b> ${esc(a.director.by)} · ${fmtDate(a.director.at)}</span></div>`;
+  if(a.gm)stamps+=`<div class="appr-stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg><span><b>${t('appr_gm_label')}:</b> ${esc(a.gm.by)} · ${fmtDate(a.gm.at)}</span></div>`;
+  let actions='';
+  if(draft.status==='draft')actions+=`<button class="btn primary sm" onclick="doStage('submit')">${t('submit_for_approval')}</button>`;
+  else if(draft.status==='submitted'){if(isDirector())actions+=`<button class="btn primary sm" onclick="doStage('dir')">${t('approve_director')}</button>`;actions+=`<button class="btn sm" onclick="doStage('back')">${t('send_back')}</button>`;}
+  else if(draft.status==='dir_approved'){if(isGM())actions+=`<button class="btn primary sm" onclick="doStage('gm')">${t('approve_gm')}</button>`;actions+=`<button class="btn sm" onclick="doStage('back')">${t('send_back')}</button>`;}
+  else if(draft.status==='approved')actions+=`<button class="btn sm" onclick="doStage('back')">${t('send_back')}</button>`;
+  c.innerHTML=`<div class="appr-flow">${steps}</div>${stamps}<div class="appr-actions">${actions}</div>`;
+}
+function renderHistory(){const c=document.getElementById('histBox');if(!c||!draft)return;const h=draft.history||[];
+  if(!h.length){c.innerHTML=`<div class="mgr-empty">—</div>`;return;}
+  c.innerHTML=`<div class="hist">${h.map(e=>`<div class="hist-row"><span class="hr-act">${t(e.action)}</span><span class="hr-by">${esc(e.by)} · ${roleLabel(e.role)}</span><span class="hr-at">${fmtDate(e.at)}</span></div>`).join('')}</div>`;
+}
+function doStage(action){
+  if(!draft)return;
+  if(!draft.name||!draft.name.trim()){toast(t('toast_name'));const n=document.getElementById('f_name');if(n)n.focus();return;}
+  if(action==='submit'){draft.status='submitted';logHistory(draft,'act_submitted');toast(t('toast_submitted'));}
+  else if(action==='dir'){if(!isDirector()){toast(t('toast_no_perm'));return;}draft.status='dir_approved';draft.approvals=draft.approvals||{};draft.approvals.director={by:CURRENT.name,at:Date.now()};logHistory(draft,'act_dir_approved');toast(t('toast_dir_approved'));}
+  else if(action==='gm'){if(!isGM()){toast(t('toast_no_perm'));return;}draft.status='approved';draft.approvals=draft.approvals||{};draft.approvals.gm={by:CURRENT.name,at:Date.now()};logHistory(draft,'act_gm_approved');toast(t('toast_gm_approved'));}
+  else if(action==='back'){draft.status='draft';draft.approvals={};logHistory(draft,'act_sent_back');toast(t('toast_sent_back'));}
+  if(editingId){const i=DB.processes.findIndex(p=>p.id===editingId);if(i>=0)DB.processes[i]=draft;}else{draft.id=uid();editingId=draft.id;DB.processes.push(draft);}
+  save();renderAll();renderApproval();renderHistory();
+  const sb=document.querySelector('#drawerBody .status');if(sb){sb.className='status '+draft.status;sb.textContent=statusLabel(draft.status);}
+}
+
+/* ===== DEPARTMENT & SUPPLIER MANAGERS ===== */
+let mgrMode=null;
+function openMgr(mode){mgrMode=mode;const ey={dept:'mgr_dept_eyebrow',sup:'mgr_sup_eyebrow',users:'mgr_user_eyebrow'}[mode],ti={dept:'mgr_dept_title',sup:'mgr_sup_title',users:'mgr_user_title'}[mode];document.getElementById('mgrEyebrow').textContent=t(ey);document.getElementById('mgrTitle').textContent=t(ti);document.getElementById('mgrDone').textContent=t('done');renderMgr();document.getElementById('mgrOverlay').classList.add('show');document.body.style.overflow='hidden';}
+function openDeptMgr(){openMgr('dept');}
+function openSupplierMgr(){openMgr('sup');}
+function openUserMgr(){openMgr('users');}
+function closeMgr(){document.getElementById('mgrOverlay').classList.remove('show');document.body.style.overflow=document.getElementById('drawer').classList.contains('show')?'hidden':'';mgrMode=null;}
+function renderMgr(){const b=document.getElementById('mgrBody');if(!b||!mgrMode)return;
+  if(mgrMode==='dept'){
+    const rows=DB.departments.map(d=>{const n=DB.processes.filter(p=>p.departmentId===d.id).length;return `<div class="mgr-row"><input type="color" class="swatch" value="${d.color}" oninput="setDeptColor('${d.id}',this.value)"><input class="mr-name" value="${esc(d.name)}" oninput="setDeptName('${d.id}',this.value)"><span class="mr-count">${t('step_count',n,noun(n,'proc'))}</span><button class="icon-btn del" onclick="delDept('${d.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2m1 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div>`;}).join('');
+    b.innerHTML=rows+`<div class="mgr-add"><input id="newDeptName" placeholder="${esc(t('add_dept_ph'))}" onkeydown="if(event.key==='Enter')addDept()"><button class="btn primary sm" onclick="addDept()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>${t('btn_add')}</button></div>`;
+  }else if(mgrMode==='sup'){
+    const sups=DB.suppliers||[];
+    const rows=sups.map(s=>{const n=DB.processes.filter(p=>(p.supplierLinks||[]).some(l=>l.supplierId===s.id)).length;return `<div class="mgr-row"><input class="mr-name" value="${esc(s.name)}" oninput="setSupName('${s.id}',this.value)"><input class="mr-type" value="${esc(s.type||'')}" placeholder="${esc(t('sup_type_ph'))}" oninput="setSupType('${s.id}',this.value)"><span class="mr-count">↔ ${n}</span><button class="icon-btn del" onclick="delSupplier('${s.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`;}).join('')||`<div class="mgr-empty">${t('mgr_sup_empty')}</div>`;
+    b.innerHTML=rows+`<div class="mgr-add"><input id="newSupName" placeholder="${esc(t('add_sup_ph'))}" onkeydown="if(event.key==='Enter')addSupplier()"><button class="btn primary sm" onclick="addSupplier()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>${t('btn_add')}</button></div>`;
+  }else{
+    const us=DB.users||[];
+    const rows=us.map(u=>`<div class="mgr-row"><input class="mr-name" value="${esc(u.name)}" oninput="setUserName('${u.id}',this.value)"><select class="mr-type" onchange="setUserRole('${u.id}',this.value)">${ROLES.map(r=>`<option value="${r}" ${u.role===r?'selected':''}>${esc(roleLabel(r))}</option>`).join('')}</select><input class="mr-type" style="max-width:110px" value="${esc(u.pin||'')}" placeholder="${esc(t('pin_optional'))}" oninput="setUserPin('${u.id}',this.value)">${u.id===(CURRENT&&CURRENT.id)?'':`<button class="icon-btn del" onclick="delUser('${u.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>`}</div>`).join('')||`<div class="mgr-empty">${t('mgr_user_empty')}</div>`;
+    b.innerHTML=rows+`<div class="mgr-add"><input id="newUserName" placeholder="${esc(t('add_user_ph'))}" onkeydown="if(event.key==='Enter')addUser()"><button class="btn primary sm" onclick="addUser()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>${t('btn_add')}</button></div>`;
+  }
+}
+function setUserName(id,v){const u=(DB.users||[]).find(x=>x.id===id);if(u){u.name=v;save();if(CURRENT&&CURRENT.id===id)updateUserChip();}}
+function setUserRole(id,v){const u=(DB.users||[]).find(x=>x.id===id);if(u){u.role=v;save();if(CURRENT&&CURRENT.id===id){CURRENT.role=v;updateUserChip();if(document.getElementById('drawer').classList.contains('show'))renderApproval();}}}
+function setUserPin(id,v){const u=(DB.users||[]).find(x=>x.id===id);if(u){u.pin=(v||'').trim();save();}}
+function addUser(){const inp=document.getElementById('newUserName');const v=(inp.value||'').trim();if(!v)return;DB.users=DB.users||[];DB.users.push({id:uid(),name:v,role:'staff',pin:''});inp.value='';save();renderMgr();toast(t('toast_user_added'));}
+function delUser(id){if(CURRENT&&CURRENT.id===id)return;const u=(DB.users||[]).find(x=>x.id===id);if(!confirm(t('confirm_del_user',u?u.name:'')))return;DB.users=(DB.users||[]).filter(x=>x.id!==id);save();renderMgr();toast(t('toast_user_removed'));}
+function setDeptName(id,v){const d=dept(id);if(d){d.name=v;save();fillDeptFilters();renderDash();}}
+function setDeptColor(id,v){const d=dept(id);if(d){d.color=v;save();renderDash();}}
+function addDept(){const inp=document.getElementById('newDeptName');const v=(inp.value||'').trim();if(!v)return;const palette=['#FF4948','#5B8DEF','#37D399','#C77DFF','#FFB454','#4EC3C9','#F36FB0','#9B8CFF'];DB.departments.push({id:uid(),name:v,color:palette[DB.departments.length%palette.length]});inp.value='';save();renderMgr();fillDeptFilters();renderDash();renderMap();toast(t('toast_dept_added'));}
+function delDept(id){const n=DB.processes.filter(p=>p.departmentId===id).length;if(n){toast(t('dept_blocked'));return;}const d=dept(id);if(!confirm(t('confirm_del_dept',d?d.name:'')))return;DB.departments=DB.departments.filter(x=>x.id!==id);save();renderMgr();fillDeptFilters();renderDash();renderMap();toast(t('toast_dept_removed'));}
+function setSupName(id,v){const s=supplier(id);if(s){s.name=v;save();}}
+function setSupType(id,v){const s=supplier(id);if(s){s.type=v;save();}}
+function addSupplier(){const inp=document.getElementById('newSupName');const v=(inp.value||'').trim();if(!v)return;DB.suppliers=DB.suppliers||[];DB.suppliers.push({id:uid(),name:v,type:'',notes:''});inp.value='';save();renderMgr();renderMap();if(document.getElementById('drawer').classList.contains('show'))renderSupLinks();toast(t('toast_sup_added'));}
+function delSupplier(id){const s=supplier(id);if(!confirm(t('confirm_del_sup',s?s.name:'')))return;DB.suppliers=(DB.suppliers||[]).filter(x=>x.id!==id);DB.processes.forEach(p=>{p.supplierLinks=(p.supplierLinks||[]).filter(l=>l.supplierId!==id);});save();renderMgr();renderMap();if(document.getElementById('drawer').classList.contains('show'))renderSupLinks();toast(t('toast_sup_removed'));}
+function saveProcess(){
+  if(!draft.name||!draft.name.trim()){toast(t('toast_name'));const n=document.getElementById('f_name');if(n)n.focus();return;}
+  if(editingId){logHistory(draft,'act_edited');const i=DB.processes.findIndex(p=>p.id===editingId);draft.id=editingId;DB.processes[i]=draft;toast(t('toast_updated'));}
+  else{draft.id=uid();draft.status=draft.status||'draft';logHistory(draft,'act_created');DB.processes.push(draft);toast(t('toast_added'));}
+  save();renderAll();closeEditor();
+}
+
+/* ===== EXPORT / IMPORT ===== */
+function exportData(){const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='global-1080-processes.json';a.click();URL.revokeObjectURL(a.href);toast(t('toast_exported'));}
+function csvCell(v){const s=(v==null?'':String(v));return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s;}
+function exportCSV(){
+  if(!DB.processes.length){toast(t('toast_no_csv'));return;}
+  const rows=[t('csv_h')];
+  DB.processes.forEach(p=>{const d=dept(p.departmentId);
+    const steps=(p.steps||[]).map((s,i)=>`${i+1}. ${s.text}${s.role?' ['+s.role+(s.system?' / '+s.system:'')+']':(s.system?' ['+s.system+']':'')}`).join(' | ');
+    const deps=(p.dependsOn||[]).map(id=>{const u=proc(id);return u?u.name:'';}).filter(Boolean).join(' | ');
+    const sups=(p.supplierLinks||[]).map(l=>{const s=supplier(l.supplierId);if(!s)return '';const lab=l.dir==='in'?t('doc_sup_in'):l.dir==='out'?t('doc_sup_out'):t('doc_sup_both');return `${s.name} (${lab})`;}).filter(Boolean).join(' | ');
+    rows.push([p.name,d?d.name:'',p.ownerName||'',p.ownerRole||'',p.backupOwner||'',freqLabel(p.frequency),statusLabel(p.status),p.purpose||'',p.trigger||'',(p.inputs||[]).join(' | '),(p.outputs||[]).join(' | '),(p.systems||[]).join(' | '),steps,deps,(p.kpis||[]).join(' | '),(p.risks||[]).join(' | '),p.notes||'',sups]);
+  });
+  const csv='\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='global-1080-processes.csv';a.click();URL.revokeObjectURL(a.href);toast(t('toast_csv'));
+}
+function importData(file){const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!d.departments||!d.processes)throw 0;DB=d;DB.suppliers=DB.suppliers||[];if(!DB.users||!DB.users.length)DB.users=makeUsers(LANG);DB.processes.forEach(p=>{if(!p.supplierLinks)p.supplierLinks=[];if(p.status==='review')p.status='submitted';if(!p.approvals)p.approvals={};if(!p.history)p.history=[];if(!p.lastEditedBy)p.lastEditedBy=p.ownerName?{name:p.ownerName,role:'staff'}:null;});if(DB.meta&&DB.meta.lang)LANG=DB.meta.lang;applyStaticI18n();save();renderAll();toast(t('toast_imported'));const stillThere=CURRENT&&DB.users.find(u=>u.id===CURRENT.id);if(!stillThere){CURRENT=null;showLogin();}else updateUserChip();}catch(e){toast(t('toast_invalid'));}};r.readAsText(file);}
+
+/* ===== NAV / BIND ===== */
+function switchTab(name){document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));if(name==='map')requestAnimationFrame(()=>drawLinks());}
+function bind(){
+  document.getElementById('tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b)switchTab(b.dataset.tab);});
+  document.getElementById('langsel').addEventListener('click',e=>{const b=e.target.closest('button');if(b)setLang(b.dataset.lang);});
+  document.getElementById('searchInput').addEventListener('input',renderProcesses);
+  document.getElementById('filterDept').addEventListener('change',renderProcesses);
+  document.getElementById('filterStatus').addEventListener('change',renderProcesses);
+  document.getElementById('mapReset').addEventListener('click',()=>{mapHL=null;applyMapHL();});
+  document.getElementById('mgrDeptBtn').addEventListener('click',openDeptMgr);
+  document.getElementById('mgrSupBtn').addEventListener('click',openSupplierMgr);
+  document.getElementById('mgrUserBtn').addEventListener('click',openUserMgr);
+  document.getElementById('signOutBtn').addEventListener('click',signOut);
+  document.getElementById('loginBtn').addEventListener('click',doLogin);
+  document.getElementById('mgrClose').addEventListener('click',closeMgr);
+  document.getElementById('mgrDone').addEventListener('click',closeMgr);
+  document.getElementById('mgrOverlay').addEventListener('click',e=>{if(e.target.id==='mgrOverlay')closeMgr();});
+  document.getElementById('printAllBtn').addEventListener('click',openFullManual);
+  document.getElementById('saveProc').addEventListener('click',saveProcess);
+  document.getElementById('overlay').addEventListener('click',closeEditor);
+  document.getElementById('exportBtn').addEventListener('click',exportData);
+  document.getElementById('csvBtn').addEventListener('click',exportCSV);
+  document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('fileInput').click());
+  document.getElementById('fileInput').addEventListener('change',e=>{if(e.target.files[0])importData(e.target.files[0]);e.target.value='';});
+  window.addEventListener('resize',()=>{if(document.getElementById('view-map').classList.contains('active'))drawLinks();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.getElementById('mgrOverlay').classList.contains('show'))closeMgr();else if(document.getElementById('docOverlay').classList.contains('show'))closeDoc();else if(document.getElementById('drawer').classList.contains('show'))closeEditor();}});
+}
+let toastTimer;
+function toast(msg){const el=document.getElementById('toast');el.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>${esc(msg)}`;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),2400);}
+</script>
+<!-- Register service worker for offline use + installability -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('service-worker.js').catch(function (err) {
+      console.warn('Service worker registration failed:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
